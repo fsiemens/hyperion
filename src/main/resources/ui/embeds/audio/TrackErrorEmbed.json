@@ -1,0 +1,5 @@
+{
+   	"color":29530,
+   	"title":"@{.track-error.embed.title}@",
+   	"type":"RICH"
+}

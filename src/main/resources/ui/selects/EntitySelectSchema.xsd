@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="../CommonSchema.xsd"/>
+	
+	<xs:element name="entitySelect" type="entitySelectType" />
+	
+	<xs:simpleType name="selectTarget">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="user"/>
+            <xs:enumeration value="role"/>
+            <xs:enumeration value="mentionable"/>
+            <xs:enumeration value="channel"/>
+        </xs:restriction>
+    </xs:simpleType>
+	
+	<xs:complexType name="entitySelectType" >
+    	<xs:sequence>
+    		<xs:element name="placeholder" type="xs:string" maxOccurs="1" minOccurs="0" />
+    	</xs:sequence>
+    	<xs:attribute name="id" type="xs:string" use="required"/>
+    	<xs:attribute name="target" type="selectTarget"/>
+        <xs:attribute name="min" type="xs:integer" use="required"/>
+        <xs:attribute name="max" type="xs:integer" use="required" />
+        <xs:attribute name="disabled" type="xs:string" use="optional"/>
+        <xs:attribute name="required" type="xs:boolean" use="required" />
+        <xs:attribute name="params" type="paramsType" use="optional" />
+        <xs:attribute ref="if" use="optional"/>
+    </xs:complexType>
+</xs:schema>

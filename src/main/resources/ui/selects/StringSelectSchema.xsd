@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:include schemaLocation="../CommonSchema.xsd"/>
+	
+	<xs:element name="stringSelect" type="stringSelectType" />
+	
+	<xs:complexType name="selectOptionType" >
+		<xs:sequence>
+			<xs:element name="label" type="xs:string" maxOccurs="1" minOccurs="1" />
+			<xs:element name="value" type="xs:string" maxOccurs="1" minOccurs="1" />
+    		<xs:element name="description" type="xs:string" maxOccurs="1" minOccurs="0" />
+    		<xs:element ref="emoji" maxOccurs="1" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="default" type="xs:boolean" use="optional"/>
+		<xs:attribute ref="if" use="optional"/>
+		<xs:attribute ref="for" use="optional"/>
+	</xs:complexType>
+	
+	<xs:complexType name="stringSelectType" >
+    	<xs:sequence>
+    		<xs:element name="placeholder" type="xs:string" maxOccurs="1" minOccurs="0" />
+    		<xs:element name="option" type="selectOptionType" minOccurs="0" maxOccurs="25" />
+    	</xs:sequence>
+    	<xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="min" type="xs:integer" use="required"/>
+        <xs:attribute name="max" type="xs:integer" use="required" />
+        <xs:attribute name="disabled" type="xs:string" use="optional"/>
+        <xs:attribute name="required" type="xs:boolean" use="required" />
+        <xs:attribute name="params" type="paramsType" use="optional" />
+        <xs:attribute ref="if" use="optional"/>
+    </xs:complexType>
+</xs:schema>

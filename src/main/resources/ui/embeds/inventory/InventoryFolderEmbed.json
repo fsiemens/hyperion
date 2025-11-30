@@ -1,0 +1,8 @@
+{
+	"title":"@{.inventory.embed.title}@",
+   	"color":7527390,
+   	"footer":{
+		"text":"@{.common.embed.footer}@"
+   	},
+   	"type":"RICH"
+}

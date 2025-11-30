@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.group.leave" params="group" >
+	<!-- SelectOption.of(member.getName() + " (" + member.getId() + ")", String.valueOf(member.getId())) -->
+  <title>@{.group.modal.leave}@</title>
+  <textDisplay>
+  	<h1>@{.common.warning}@</h1>
+  	<text>@{.group.leave.warning}@</text>
+  </textDisplay>
+  <label>
+  	<title>@{.group.modal.leave.selector.title}@</title>
+  	<description>
+  		@{.group.modal.leave.selector.desc}@
+  	</description>
+  	<stringSelect id="konto.modal.leave.account-select" min="1" max="1" required="true">
+  		<option for="options">
+  			<label>{name} ({id})</label>
+  			<value>{id}</value>
+  			<description>@{.group.modal.leave.selector.option.desc}@</description>
+  		</option>
+  	</stringSelect>
+  </label>
+</modal>

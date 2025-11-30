@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.audio.search" >
+  <title>@{.audio.button.queue}@</title>
+  <label>
+  	<title>@{.audio.modal.queue.source-select.title}@</title>
+  	<description>@{.audio.modal.queue.source-select.desc}@</description>
+  	<stringSelect id="source" min="1" max="1" required="true" >
+  		<option>
+  			<label>@{.audio.panel.music-player.yt.title}@</label>
+  			<value>yt</value>
+  			<description>@{.audio.panel.music-player.yt.desc}@</description>
+  		</option>
+  		<option>
+  			<label>@{.audio.panel.music-player.ytm.title}@</label>
+  			<value>ytm</value>
+  			<description>@{.audio.panel.music-player.ytm.desc}@</description>
+  		</option>
+  		<option>
+  			<label>@{.audio.panel.music-player.sp.title}@</label>
+  			<value>sp</value>
+  			<description>@{.audio.panel.music-player.sp.desc}@</description>
+  		</option>
+  		<option>
+  			<label>@{.audio.panel.music-player.sc.title}@</label>
+  			<value>sc</value>
+  			<description>@{.audio.panel.music-player.sc.desc}@</description>
+  		</option>
+  		<option >
+  			<label>@{.audio.panel.music-player.bc.title}@</label>
+  			<value>bc</value>
+  			<description>@{.audio.panel.music-player.bc.desc}@</description>
+  		</option>
+  		<option>
+  			<label>@{.audio.panel.music-player.ttv.title}@</label>
+  			<value>ttv</value>
+  			<description>@{.audio.panel.music-player.ttv.desc}@</description>
+  		</option>
+  		<option>
+  			<label>@{.audio.panel.music-player.loc.title}@</label>
+  			<value>loc</value>
+  			<description>@{.audio.panel.music-player.loc.desc}@</description>
+  		</option>
+  	</stringSelect>
+  </label>
+  <label>
+  	<title>@{.audio.modal.queue.query.title}@</title>
+  	<description>@{.audio.modal.queue.query.desc}@</description>
+	<textInput max="512" min="1" style="paragraph" required="true" id="query">
+  		<placeholder>@{.audio.modal.queue.query.placeholder}@</placeholder>
+  	</textInput>
+  </label>
+</modal>

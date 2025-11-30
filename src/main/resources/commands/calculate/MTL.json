@@ -1,0 +1,22 @@
+{
+	"slashData":{
+		"name" : "mtl",
+		"description" : "Berechnet das maximale Tech-Level für einen Charakter.",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options": [
+			{
+				"name": "level",
+            	"description": "Das Level des Charakters. [1-20]",
+            	"type": 4,
+            	"min_value":1,
+            	"max_value":20,
+            	"required": true
+			}
+		],
+		"type" : 1
+	}
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.konto.transfer" params="konto" >
+  <title>@{.konto.button.transfer-account}@</title>
+  <textDisplay>
+  	<h1>@{.common.warning}@</h1>
+  	<text>@{.konto.transfer.warning}@</text>
+  </textDisplay>
+  <label>
+  	<title>@{.konto.transfer.user-input.title}@</title>
+  	<description>@{.konto.transfer.user-input.description}@</description>
+  	<textInput max="32" min="2" style="short" required="true" id="user">
+  		<placeholder>@{.konto.transfer.user-input.placeholder}@</placeholder>
+  	</textInput>
+  </label>
+</modal>

@@ -1,0 +1,14 @@
+{
+	"slashData":{
+		"name" : "stop",
+		"description" : "Stoppt die Wiedergabe, löscht die Warteschlange und lässt mich den Sprachkanal verlassen.",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : false,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [
+		],
+		"type" : 1
+	}
+}

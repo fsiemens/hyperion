@@ -1,0 +1,12 @@
+{
+	"slashData":{
+		"name" : "settings",
+		"description" : "Persönliche Einstellungen",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"type" : 1
+	}
+}

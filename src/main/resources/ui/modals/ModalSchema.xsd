@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	
+	<xs:include schemaLocation="../TextDisplaySchema.xsd"/>
+	<xs:include schemaLocation="../inputs/TextInputSchema.xsd"/>
+	<xs:include schemaLocation="../selects/StringSelectSchema.xsd"/>
+	<xs:include schemaLocation="../selects/EntitySelectSchema.xsd"/>
+	
+	<xs:element name="modal" type="modalType" />
+		
+	<!-- title, TextDisplays, TextInputs, StringSelectMenus, EntitySelectMenus -->
+    <xs:complexType name="modalType">
+    	<xs:sequence>
+    		<xs:element name="title" type="xs:string" maxOccurs="1" minOccurs="1" />
+    		<xs:choice minOccurs="1" maxOccurs="5" >
+    			<xs:element ref="textDisplay" />
+    			<xs:element name="label" type="labelType" />
+    		</xs:choice>
+    	</xs:sequence>
+    	<xs:attribute name="id" type="xs:string" use="required"/>
+    	<xs:attribute name="params" type="paramsType" use="optional" />
+    </xs:complexType>
+    
+    <xs:complexType name="labelType">
+    	<xs:sequence>
+    		<xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1" />
+    		<xs:element name="description" type="xs:string" minOccurs="1" maxOccurs="1" />
+    		<xs:choice minOccurs="1" maxOccurs="1" >
+	   			<xs:element ref="textInput" />
+	   			<xs:element ref="stringSelect" />
+	   			<xs:element ref="entitySelect" />
+	   		</xs:choice>
+    	</xs:sequence>
+   		
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <!-- Root Element for a Slash Command Definition -->
+    <xs:element name="slashCommand">
+        <xs:complexType>
+            <xs:sequence>
+
+                <!-- Name of the Command (required) -->
+                <xs:element name="name" type="xs:string" />
+
+				<xs:element name="deleteInit" type="xs:boolean"></xs:element>
+
+                <!-- Name Localizations (optional) -->
+                <xs:element name="name_localizations" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="localization" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+	        							<xs:extension
+	        								base="xs:string">
+	        								<xs:attribute name="code"
+	        									type="xs:string" use="required" />
+	        							</xs:extension>
+	        						</xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- Description of the Command (required) -->
+                <xs:element name="description" type="xs:string" />
+
+                <!-- Description Localizations (optional) -->
+                <xs:element name="description_localizations" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="localization" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+	        							<xs:extension
+	        								base="xs:string">
+	        								<xs:attribute name="code"
+	        									type="xs:string" use="required" />
+	        							</xs:extension>
+	        						</xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- Optional options for the command -->
+                <xs:element name="options" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- Define individual options -->
+                            <xs:element name="option" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+
+                                        <!-- Option name (required) -->
+                                        <xs:element name="name" type="xs:string" />
+
+                                        <!-- Option description (required) -->
+                                        <xs:element name="description" type="xs:string" />
+                                        
+                                        <xs:element name="description_localizations" minOccurs="0">
+                    						<xs:complexType>
+                        						<xs:sequence>
+                            						<xs:element name="localization" maxOccurs="unbounded">
+                                						<xs:complexType>
+                                    						<xs:simpleContent>
+	        													<xs:extension
+	        														base="xs:string">
+	        														<xs:attribute name="code"
+	        															type="xs:string" use="required" />
+	        													</xs:extension>
+	        												</xs:simpleContent>
+                                						</xs:complexType>
+                            						</xs:element>
+                        						</xs:sequence>
+                    						</xs:complexType>
+                						</xs:element>
+
+                                        <!-- Option type (required, mapping to OptionType enum in JDA) -->
+                                        <xs:element name="type" type="xs:string" />
+
+                                        <!-- Is this option required? -->
+                                        <xs:element name="required" type="xs:boolean" minOccurs="0" />
+
+                                        <!-- Option choices -->
+                                        <xs:element name="choices" minOccurs="0" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <!-- Define individual choice -->
+                                                    <xs:element name="choice" maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <!-- Name of the choice (required) -->
+                                                                <xs:element name="name" type="xs:string" />
+
+                                                                <!-- Value of the choice (required) -->
+                                                                <xs:element name="value" type="xs:string" />
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+
+										<xs:element name="minLength" type="xs:integer" minOccurs="0" />
+										<xs:element name="maxLength" type="xs:integer" minOccurs="0" />
+										
+										<xs:element name="minValue" type="xs:double" minOccurs="0" />
+										<xs:element name="maxValue" type="xs:double" minOccurs="0" />
+
+
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- Subcommands (optional) -->
+                <xs:element name="subcommands" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="subcommand" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+
+                                        <!-- Subcommand name -->
+                                        <xs:element name="name" type="xs:string" />
+
+                                        <!-- Subcommand description -->
+                                        <xs:element name="description" type="xs:string" />
+
+                                        <!-- Subcommand options -->
+                                        <xs:element name="options" minOccurs="0" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <!-- Define individual options -->
+                                                    <xs:element name="option" maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <!-- Option name -->
+                                                                <xs:element name="name" type="xs:string" />
+                                                                <!-- Option description -->
+                                                                <xs:element name="description" type="xs:string" />
+                                                                <!-- Option type -->
+                                                                <xs:element name="type" type="xs:string" />
+                                                                <!-- Is the option required? -->
+                                                                <xs:element name="required" type="xs:boolean" minOccurs="0" />
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- Is this command enabled by default? (optional, default: true) -->
+                <xs:element name="defaultPermission" type="xs:boolean" minOccurs="0" />
+
+                <!-- Is this command marked as NSFW? (optional, default: false) -->
+                <xs:element name="nsfw" type="xs:boolean" minOccurs="0" />
+
+                <!-- Is this command enabled in DMs? (optional) -->
+                <xs:element name="dmPermission" type="xs:boolean" minOccurs="0" />
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

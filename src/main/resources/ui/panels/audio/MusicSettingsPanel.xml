@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.audio.player">
+
+	<text-display>
+		<h1>@{.audio.panel.settings.title}@</h1>
+		<h2> @{.audio.panel.settings.volume}@</h2>
+	</text-display>
+	
+	<action-row>
+		<button id="b.audio.vol" style="primary" params="step=-10">
+			<text>-10</text>
+		</button>
+		<button id="b.audio.vol" style="primary" params="step=-1">
+			<text>-1</text>
+		</button>
+		<button id="b.audio.vol" style="primary" disabled="true">
+			<text>{vol}</text>
+		</button>
+		<button id="b.audio.vol" style="primary" params="step=1">
+			<text>+1</text>
+		</button>
+		<button id="b.audio.vol" style="primary" params="step=10">
+			<text>+10</text>
+		</button>
+	</action-row>
+	
+	<separator divider="true" spacing="2"/>
+	
+	<action-row>
+		<button id="b.audio.back" style="secondary">
+			<text>@{.common.back}@</text>
+		</button>
+	</action-row>
+	
+</container>

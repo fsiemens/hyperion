@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:include schemaLocation="../buttons/ButtonSchema.xsd"/>
+	<xs:include schemaLocation="../CommonSchema.xsd"/>
+	<xs:include schemaLocation="../TextDisplaySchema.xsd"/>
+
+    <!-- ===== Root Element ===== -->
+    <xs:element name="container" type="containerType"/>
+
+    <!-- ===== Simple Types ===== -->
+    
+    <xs:simpleType name="separatorSpacing">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ===== container ===== -->
+    <xs:complexType name="containerType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="separator" type="separatorType"/>
+            <xs:element name="action-row" type="actionRowType"/>
+            <xs:element name="section" type="sectionType"/>
+            <xs:element name="text-display" type="textDisplayType"/>
+            <xs:element name="media-gallery" type="mediaGalleryType"/>
+            <xs:element name="file-display" type="fileDisplayType"/>
+        </xs:choice>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- ===== action-row ===== -->
+    <xs:complexType name="actionRowType">
+        <xs:sequence maxOccurs="10">
+            <xs:element name="button" type="buttonType"/>
+        </xs:sequence>
+        <xs:attribute ref="if" use="optional"/>
+    </xs:complexType>
+
+    <!-- ===== section ===== -->
+    <xs:complexType name="sectionType">
+        <xs:sequence>
+            <xs:element name="text-display" type="textDisplayType" minOccurs="1" maxOccurs="3"/>
+            <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element name="button" type="buttonType"/>
+                <xs:element name="thumbnail" type="xs:string"/> <!-- später spezifizieren -->
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute ref="if" use="optional"/>
+        <xs:attribute ref="for" use="optional"/>
+    </xs:complexType>
+    
+    <!-- ===== separator ===== -->
+    <xs:complexType name="separatorType">
+    	<xs:attribute name="divider" type="xs:boolean" use="required"/>
+        <xs:attribute name="spacing" type="separatorSpacing" use="required"/>
+        <xs:attribute ref="if" use="optional"/>
+    </xs:complexType>
+    
+    <!-- ===== mediaGallery ===== -->
+    <xs:complexType name="mediaGalleryType">
+    	<xs:sequence>
+    		<xs:element name="item" type="mediaGalleryItemType" minOccurs="1" maxOccurs="10"/>
+    	</xs:sequence>
+    	<xs:attribute ref="if" use="optional"/>
+    </xs:complexType>
+    
+ 	<!-- ===== mediaGalleryItemType ===== -->
+    <xs:complexType name="mediaGalleryItemType">
+    	<xs:choice minOccurs="1" maxOccurs="1">
+    		<xs:element name="url" type="xs:string"/>
+    		<!-- <xs:element name="file" type="xs:string"/> -->
+    	</xs:choice>
+    	<xs:attribute ref="if" use="optional"/>
+    	<xs:attribute ref="for" use="optional"/>
+    </xs:complexType>
+    
+    <!-- ===== fileDisplay ===== -->
+    <xs:complexType name="fileDisplayType">
+    	<xs:sequence>
+    	
+    	</xs:sequence>
+    	<xs:attribute ref="if" use="optional"/>
+    </xs:complexType>
+    
+
+</xs:schema>

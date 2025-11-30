@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.konto.transaction" params="konto" >
+  <title>@{.konto.button.transaction}@</title>
+  <label>
+  	<title>@{.konto.transaction.mode-selection.title}@</title>
+  	<description>@{.konto.transaction.mode-selection.description}@</description>
+  	<stringSelect max="1" min="1" id="mode" required="true">
+  		<placeholder>@{.konto.transaction.mode-selection.placeholder}@</placeholder>
+  		<option 
+  			if="#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_DEPOSIT) 
+  			&amp;&amp; (#isOwner || #account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBER_DEPOSIT))">
+  			<label>@{.konto.transaction.mode-selection.deposit.label}@</label>
+  			<value>deposit</value>
+  			<description>@{.konto.transaction.mode-selection.deposit.description}@</description>
+  		</option>
+  		<option 
+  			if="#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_SENDING_TRANSFER) 
+  			&amp;&amp; (#isOwner || #account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBER_TRANSFER))">
+  			<label>@{.konto.transaction.mode-selection.transfer.label}@</label>
+  			<value>transfer</value>
+  			<description>@{.konto.transaction.mode-selection.transfer.description}@</description>
+  		</option>
+  		<option 
+  			if="#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_WITHDRAWAL) 
+  			&amp;&amp; (#isOwner || #account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBER_WITHDRAW))">
+  			<label>@{.konto.transaction.mode-selection.withdraw.label}@</label>
+  			<value>withdraw</value>
+  			<description>@{.konto.transaction.mode-selection.withdraw.description}@</description>
+  		</option>
+  	</stringSelect>
+  </label>
+  <label>
+  	<title>@{.konto.transaction.amount-input.title}@</title>
+  	<description>@{.konto.transaction.amount-input.description}@</description>
+  	<textInput max="9" min="1" style="short" required="true" id="amount">
+  		<placeholder>@{.konto.transaction.amount-input.placeholder}@</placeholder>
+  	</textInput>
+  </label>
+  <label>
+  	<title>@{.konto.transaction.counterpart-input.title}@</title>
+  	<description>@{.konto.transaction.counterpart-input.description}@</description>
+  	<textInput max="128" min="1" style="short" required="true" id="counterpart">
+  		<placeholder>@{.konto.transaction.counterpart-input.placeholder}@</placeholder>
+  	</textInput>
+  </label>
+  <label>
+  	<title>@{.konto.transaction.note-input.title}@</title>
+  	<description>@{.konto.transaction.note-input.description}@</description>
+  	<textInput max="512" min="1" style="paragraph" required="false" id="note">
+  		<placeholder>@{.konto.transaction.note-input.placeholder}@</placeholder>
+  	</textInput>
+  </label>
+</modal>

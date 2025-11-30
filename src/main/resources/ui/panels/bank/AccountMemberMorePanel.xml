@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.konto.member.more">
+	<text-display>
+		<h1>@{.group.panel.member.more.title}@</h1>
+		<text>@{.group.panel.member.more.description}@</text>
+	</text-display>
+	
+	<separator divider="false" spacing="2" />
+	
+	<text-display>
+		<h3>@{.konto.name}@</h3>
+		<text>> `{name}`</text>
+	</text-display>
+
+	<text-display>
+		<h3>@{.konto.id}@</h3>
+		<text>> `{konto}`</text>
+	</text-display>
+	
+	<text-display>
+		<h3>@{.konto.owner}@</h3>
+		<text>> {owner}</text>
+	</text-display>
+	
+	<separator divider="true" spacing="2" />
+	
+	<action-row>
+		<button id="b.group.member.more.back" style="secondary" params="group">
+			<text>@{.konto.button.back}@</text>
+		</button>
+		<button id="b.group.member.remove" style="danger" params="konto, group">
+			<text>@{.group.button.member.remove}@</text>
+		</button>
+	</action-row>
+</container>

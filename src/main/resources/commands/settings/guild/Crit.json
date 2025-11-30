@@ -1,0 +1,62 @@
+{
+	"slashData":{
+		"name" : "crit",
+		"description" : "Einstellungen zu kritischen Würfelergebnissen. Optionen weglassen, um aktuelle Werte aufzulisten",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options": [
+			{
+				"name": "send-message",
+            	"description": "De-/aktiviert das Versenden von Crit-Benachrichtigungs-Nachrichten",
+            	"type": 5,
+            	"required": false
+			},
+			{
+				"name": "send-image",
+            	"description": "De-/aktiviert das Versenden von Crit-Benachrichtigungs-Bildern",
+            	"type": 5,
+            	"required": false
+			},
+			{
+				"name": "allow-custom-message",
+            	"description": "Erlaubt / verbietet personalisierte Crit-Nachrichten",
+            	"type": 5,
+            	"required": false
+			},
+			{
+				"name": "allow-custom-image",
+            	"description": "Erlaubt / verbietet personalisierte Crit-Bilder",
+            	"type": 5,
+            	"required": false
+			},
+			{
+				"name": "default-success-message",
+            	"description": "Setzt die guildseitige Standard-Nachricht für krit. Erfolge. Erlaubt Platzhalter, siehe /help",
+            	"type": 3,
+            	"required": false
+			},
+			{
+				"name": "default-success-image",
+            	"description": "Setzt das guildseitige Standard-Bild für krit. Erfolge",
+            	"type": 11,
+            	"required": false
+			},
+			{
+				"name": "default-fail-message",
+            	"description": "Setzt die guildseitige Standard-Nachricht für krit. Fehlschläge. Erlaubt Platzhalter, siehe /help",
+            	"type": 3,
+            	"required": false
+			},
+			{
+				"name": "default-fail-image",
+            	"description": "Setzt das guildseitige Standard-Bild für krit. Fehlschläge",
+            	"type": 11,
+            	"required": false
+			}
+		],
+		"type" : 1
+	}
+}

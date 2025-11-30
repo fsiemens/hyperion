@@ -1,0 +1,20 @@
+{
+	"slashData":{
+		"name" : "crit",
+		"description" : "Einstellungen zu kritischen Würfelergebnissen. Optionen weglassen, um aktuelle Werte aufzulisten",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options": [
+			{
+				"name": "use-custom-settings",
+            	"description": "De-/aktiviert die Verwendung von personalisierten Crit-Nachrichten / -Bildern",
+            	"type": 5,
+            	"required": false
+			}
+		],
+		"type" : 1
+	}
+}

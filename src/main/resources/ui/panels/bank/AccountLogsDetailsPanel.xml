@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.konto.logs.details">
+	<text-display>
+		<h1>@{.konto.panel.logs.detail.title}@</h1>
+		<text>@{.konto.panel.logs.detail.description}@</text>
+	</text-display>
+	
+	<separator divider="false" spacing="2" />
+	
+	<text-display>
+		<h3>@{.konto.panel.logs.detail.id}@</h3>
+		<text>> {id}</text>
+		
+		<h3>@{.konto.panel.logs.detail.amount}@</h3>
+		<text>> {amount}</text>
+		
+		<h3>@{.konto.panel.logs.detail.timestamp}@</h3>
+		<text>> &lt;t:{timestamp}:F></text>
+		
+		<h3>@{.konto.panel.logs.detail.sender}@</h3>
+		<text>> {sender}</text>
+		
+		<h3>@{.konto.panel.logs.detail.receiver}@</h3>
+		<text>> {receiver}</text>
+		
+		<h3>@{.konto.panel.logs.detail.note}@</h3>
+		<text>> {note}</text>
+	</text-display>
+	
+	<text-display if="#isGroup">
+		<h3>@{.konto.panel.logs.detail.authorizer}@</h3>
+		<text>> {authorizerName} ({authorizerId})</text>
+	</text-display>
+	
+	<separator divider="true" spacing="2" />
+	
+	<action-row>
+		<button id="b.konto.logs.back" style="secondary" params="konto, page">
+			<text>@{.konto.button.back}@</text>
+		</button>
+	</action-row>
+</container>

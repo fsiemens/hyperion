@@ -1,0 +1,26 @@
+{
+	"slashData":{
+		"name" : "crit-fail",
+		"description" : "Einstellungen zu krit. Fehlschlägen beim Würfeln. Optionen weglassen, um aktuelle Werte aufzulisten",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options": [
+			{
+				"name": "message",
+            	"description": "Personalisierte Nachricht, beim würfeln eines Crits. Darf den Platzhalter @{name}@ enthalten",
+            	"type": 3,
+            	"required": false
+			},
+			{
+				"name": "image",
+            	"description": "Personalisiertes Bild/Gif, beim würfeln eines Crits",
+            	"type": 11,
+            	"required": false
+			}
+		],
+		"type" : 1
+	}
+}

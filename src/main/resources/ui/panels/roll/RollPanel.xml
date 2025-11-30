@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.konto">
+
+	<text-display>
+		<h1>@{.roll.panel.title}@</h1>
+		<text>@{.roll.panel.description}@</text>
+	</text-display>
+	
+	<separator divider="true" spacing="2" />
+	
+	<!-- Buttons for Coin (D2) d4 d6 d8 d10 d12 d20 d100 (custom) -->
+	
+	<separator divider="true" spacing="2"/>
+	
+	<action-row>
+		<button id="b.roll.again" style="primary" params="prompt">
+			<text>@{.roll.button.roll-again}@</text>
+		</button>
+	</action-row>
+	
+</container>

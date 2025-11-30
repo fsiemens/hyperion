@@ -1,0 +1,20 @@
+{
+	"slashData":{
+		"name" : "roll-average",
+		"description" : "Verschiedene Rechner",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options":[
+			{
+				"name": "roll",
+            	"description": "Die Würfelkonfiguration dessen Durchschnitt berechnet werden soll (in Würfelnotation, siehe /roll)",
+            	"type": 3,
+            	"required": true
+			}
+		],
+		"type" : 1
+	}
+}

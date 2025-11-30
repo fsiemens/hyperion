@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:include schemaLocation="./CommonSchema.xsd"/>
+
+	<xs:element name="textDisplay" type="textDisplayType" />
+
+    <!-- ===== text-display ===== -->
+    <xs:complexType name="textDisplayType">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="h1"/>
+            <xs:element ref="h2"/>
+            <xs:element ref="h3"/>
+            <xs:element ref="text"/>
+            <xs:element ref="subtext"/>
+            <xs:element ref="code"/>
+            <xs:element ref="quote"/>
+        </xs:choice>
+        <xs:attribute ref="if" use="optional"/>
+        <xs:attribute ref="for" use="optional"/>
+    </xs:complexType>
+</xs:schema>

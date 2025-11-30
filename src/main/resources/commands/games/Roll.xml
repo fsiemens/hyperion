@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<command xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../CommandSchema.xsd">
+  <name>roll</name>
+  <deleteInit>true</deleteInit>
+  <descriptions>
+    <description code="en-GB">Rolls a dice</description>
+    <description code="de">Würfelt einen Würfel</description>
+  </descriptions>
+  <permissionLevel>0</permissionLevel>
+</command>

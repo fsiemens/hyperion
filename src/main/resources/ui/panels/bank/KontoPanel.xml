@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.konto">
+
+	<section>
+		<text-display>
+			<h1>@{.konto.embed.title}@</h1>
+			<text>@{.konto.embed.description}@</text>
+		</text-display>
+		<button id="b.konto.dissolve" style="danger" params="konto" disabled="!#isOwner">
+			<text>@{.konto.button.dissolve}@</text>
+		</button>
+	</section>
+	
+	<separator divider="true" spacing="2" />
+	
+	<section>
+		<text-display>
+			<h3>@{.konto.name}@</h3>
+			<quote>`{name}`</quote>
+		</text-display>
+		<button id="b.konto.rename" style="secondary" params="konto" disabled="!#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_NAME_CHANGE)">
+			<text>@{.konto.button.rename}@</text>
+		</button>
+	</section>
+	
+	<section>
+		<text-display>
+			<h3>@{.konto.id}@</h3>
+			<quote>`{konto}`</quote>
+		</text-display>
+		<button id="b.konto.manager" style="secondary" params="konto">
+			<text>@{.konto.button.manager}@</text>
+		</button>
+	</section>
+	
+	<section>
+		<text-display>
+			<h3>@{.konto.owner}@</h3>
+			<quote>{owner}</quote>
+		</text-display>
+		<button id="b.konto.transfer" style="danger" params="konto" disabled="!#isOwner">
+			<text>@{.konto.button.transfer-account}@</text>
+		</button>
+	</section>
+	
+	<separator divider="true" spacing="2" />
+	
+	<section>
+		<text-display>
+			<h2>💰 @{.konto.balance}@</h2>
+			<quote>`{balance}`</quote>
+		</text-display>
+		<button id="b.konto.transaction" style="primary" params="konto" 
+			disabled="(!#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_DEPOSIT) 
+			&amp;&amp; !#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_SENDING_TRANSFER) 
+			&amp;&amp; !#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_WITHDRAWAL))">
+			<text>@{.konto.button.transaction}@</text>
+		</button>
+	</section>
+	
+	<separator divider="true" spacing="2"/>
+	
+	<action-row>
+		<button id="b.konto.logs" style="secondary" params="konto" disabled="!#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_VIEW_LOGS)">
+			<text>@{.konto.button.logs}@</text>
+		</button>
+		<button id="b.konto.policies" style="secondary" params="konto">
+			<text>@{.konto.button.policies}@</text>
+		</button>
+	</action-row>
+	
+	<section>
+		<text-display>
+			<subtext>@{.konto.embed.timestamp}@</subtext>
+		</text-display>
+		<button id="b.konto.refresh" style="success" params="konto">
+			<text>@{.common.button.refresh}@</text>
+		</button>
+	</section>
+	
+</container>

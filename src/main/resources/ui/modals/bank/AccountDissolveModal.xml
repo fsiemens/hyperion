@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.konto.dissolve" params="konto" >
+  <title>@{.konto.modal.dissolve}@</title>
+  <textDisplay>
+  	<h1>@{.common.warning}@</h1>
+  	<text>@{.konto.dissolve.warning}@</text>
+  </textDisplay>
+</modal>

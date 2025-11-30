@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.konto.manager">
+	<text-display>
+		<h1>@{.group.panel.members.title}@</h1>
+		<text>@{.group.panel.members.description}@</text>
+	</text-display>
+	
+	<separator divider="false" spacing="2" />
+	
+	<section for="members" if="#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).SHOW_MEMBER_BALANCE)">
+		<text-display>
+			<text>> **{name} ({konto})** – {balance}G</text>
+		</text-display>
+		<button id="b.group.member.more" style="secondary" params="konto, group">
+			<text>@{.group.button.member.more}@</text>
+		</button>
+	</section>
+	
+	<section for="members" if="!#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).SHOW_MEMBER_BALANCE)">
+		<text-display>
+			<text>> **{name} ({konto})**</text>
+		</text-display>
+		<button id="b.group.member.more" style="secondary" params="konto, group">
+			<text>@{.group.button.member.more}@</text>
+		</button>
+	</section>
+	
+	<text-display if="#members.length == 0">
+		<text>*@{.group.no-members}@*</text>
+	</text-display>
+	
+	<separator divider="true" spacing="2" />
+	
+	<action-row>
+		<button id="b.konto.back" style="secondary" params="konto">
+			<text>@{.konto.button.back}@</text>
+		</button>
+		<button id="b.group.member.add" style="success" params="konto" 
+			disabled="!#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_ADD_MEMBERS) 
+			|| (!#isAuthorized
+				 &amp;&amp; !#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBERS_ADD_MEMBERS))"> 
+			<text>@{.group.button.member.add}@</text>
+		</button>
+	</action-row>
+</container>

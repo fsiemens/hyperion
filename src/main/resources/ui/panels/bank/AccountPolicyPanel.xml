@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.konto.policies">
+	<text-display>
+		<h1>@{.konto.embed.policies.title}@</h1>
+		<text>@{.konto.embed.policies.description}@</text>
+	</text-display>
+	
+	<separator divider="false" spacing="2" />
+	
+	<section for="policies">
+		<text-display>
+			<text if="#allowed">
+				### **🟩 {title}**
+			</text>
+			<text if="!#allowed">
+				### **🟥 {title}**
+			</text>
+			<quote>*{description}*</quote>
+		</text-display>
+		<button id="b.konto.policies.toggle" style="#allowed ? 'danger' : 'success'" params="konto, ordinal, page"
+			disabled="!#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_POLICY_CHANGE)" >
+			<text if="#allowed">
+				@{.konto.policies.button.prohibit}@
+			</text>
+			<text if="!#allowed">
+				@{.konto.policies.button.allow}@
+			</text>
+		</button>
+	</section>
+	
+	<separator divider="true" spacing="2" />
+	
+	<action-row>
+		<button id="b.konto.back" style="secondary" params="konto">
+			<text>@{.konto.button.back}@</text>
+		</button>
+		<button id="b.konto.policies.page-back" style="primary" params="konto, page" disabled="#currentPage &lt;= 1">
+			<emoji>⏪</emoji>
+		</button>
+		<button id="b.konto.policies.page-counter" style="primary" disabled="true">
+			<text>@{.common.panel.page-counter}@</text>
+		</button>
+		<button id="b.konto.policies.page-forward" style="primary" params="konto, page" disabled="#currentPage >= #totalPages">
+			<emoji>⏩</emoji>
+		</button>
+	</action-row>
+</container>

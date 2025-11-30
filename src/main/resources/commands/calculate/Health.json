@@ -1,0 +1,191 @@
+{
+	"slashData":{
+		"name" : "health",
+		"description" : "Berechnet das durchschnittliche Leben eines DnD-Charakters",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : {
+			"de":"Berechnet das durchschnittliche Leben eines DnD-Charakters",
+    		"en-US":"Calculates the average health of a DnD character",
+    		"en-UK":"Calculates the average health of a DnD character"
+		},
+		"options":[
+			{
+				"name": "class",
+            	"description": "Die DnD-Klasse des Charakters.",
+            	"type": 3,
+            	"required": true,
+            	"choices":[
+            		{
+            			"name":"Artificer",
+            			"name_localizations": {
+            				"de":"Erfinder",
+            				"en-US":"Artificer",
+            				"en-UK":"Artificer"
+            			},
+            			"value":"artificer"
+            		},
+            		{
+            			"name":"Barbarian",
+            			"name_localizations": {
+            				"de":"Barbar",
+            				"en-US":"Barbarian",
+            				"en-UK":"Barbarian"
+            			},
+            			"value":"barbarian"
+            		},
+            		{
+            			"name":"Bard",
+            			"name_localizations": {
+            				"de":"Barde",
+            				"en-US":"Bard",
+            				"en-UK":"Bard"
+            			},
+            			"value":"bard"
+            		},
+            		{
+            			"name":"Druid",
+            			"name_localizations": {
+            				"de":"Druide",
+            				"en-US":"Druid",
+            				"en-UK":"Druid"
+            			},
+            			"value":"druid"
+            		},
+            		{
+            			"name":"Fighter",
+            			"name_localizations": {
+            				"de":"Kämpfer",
+            				"en-US":"Fighter",
+            				"en-UK":"Fighter"
+            			},
+            			"value":"fighter"
+            		},
+            		{
+            			"name":"Wizard",
+            			"name_localizations": {
+            				"de":"Magier",
+            				"en-US":"Wizard",
+            				"en-UK":"Wizard"
+            			},
+            			"value":"wizard"
+            		},
+            		{
+            			"name":"Monk",
+            			"name_localizations": {
+            				"de":"Mönch",
+            				"en-US":"Monk",
+            				"en-UK":"Monk"
+            			},
+            			"value":"monk"
+            		},
+            		{
+            			"name":"Cleric",
+            			"name_localizations": {
+            				"de":"Kleriker",
+            				"en-US":"Cleric",
+            				"en-UK":"Cleric"
+            			},
+            			"value":"cleric"
+            		},
+            		{
+            			"name":"Paladin",
+            			"name_localizations": {
+            				"de":"Paladin",
+            				"en-US":"Paladin",
+            				"en-UK":"Paladin"
+            			},
+            			"value":"paladin"
+            		},
+            		{
+            			"name":"Ranger",
+            			"name_localizations": {
+            				"de":"Waldläufer",
+            				"en-US":"Ranger",
+            				"en-UK":"Ranger"
+            			},
+            			"value":"ranger"
+            		},
+            		{
+            			"name":"Rogue",
+            			"name_localizations": {
+            				"de":"Schurke",
+            				"en-US":"Rogue",
+            				"en-UK":"Rogue"
+            			},
+            			"value":"rogue"
+            		},
+            		{
+            			"name":"Warlock",
+            			"name_localizations": {
+            				"de":"Hexenmeister",
+            				"en-US":"Warlock",
+            				"en-UK":"Warlock"
+            			},
+            			"value":"warlock"
+            		},
+            		{
+            			"name":"Sorcercer",
+            			"name_localizations": {
+            				"de":"Zauberer",
+            				"en-US":"Sorcercer",
+            				"en-UK":"Sorcercer"
+            			},
+            			"value":"sorcerer"
+            		}
+            	]
+			},
+			{
+				"name": "level",
+            	"description": "Das Level des Charakters. [1-20]",
+            	"description_localizations":{
+            		"de":"Das Level des Charakters. [1-20]",
+            		"en-US":"Character level [1-20]",
+            		"en-UK":"Character level [1-20]"
+            	},
+            	"type": 4,
+            	"min_value":1,
+            	"max_value":20,
+            	"required": true
+			},
+			{
+				"name": "constitution",
+            	"description": "Der Konstitutionsbonus des Charakters. [-5 - +10]",
+            	"description_localizations":{
+            		"de":"Der Konstitutionsbonus des Charakters. [-5 - +10]",
+            		"en-US":"Constitution bonus of the character. [-5 - +10]",
+            		"en-UK":"Constitution bonus of the character. [-5 - +10]"
+            	},
+            	"type": 4,
+            	"min_value":-5,
+            	"max_value":10,
+            	"required": true
+			},
+			{
+				"name": "tough",
+            	"description": "Ob der Charakter den Tough-Feat besitzt.",
+            	"description_localizations":{
+            		"de":"Ob der Charakter den Tough-Feat besitzt.",
+            		"en-US":"Wether the character has the tough feat.",
+            		"en-UK":"Wether the character has the tough feat."
+            	},
+            	"type": 5,
+            	"required": false
+			},
+			{
+				"name": "hilldwarf",
+            	"description": "Wether the character is a hill dwarf or a species with a similar feature.",
+            	"description_localizations":{
+            		"de":"Ob der Charakter ein Hill Dwarf oder Spezies mit einer ähnlichen Eigenschaft ist.",
+            		"en-US":"Wether the character is a hill dwarf or a species with a similar feature.",
+            		"en-UK":"Wether the character is a hill dwarf or a species with a similar feature."
+            	},
+            	"type": 5,
+            	"required": false
+			}
+		],
+		"type" : 1
+	}
+}

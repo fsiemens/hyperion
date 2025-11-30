@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stringselect xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../StringSelectSchema.xsd">
+  <id>inventory.select.addelement</id>
+  <placeholder>@{.inventory.select.addelement}@</placeholder>
+  <minValue>1</minValue>
+  <maxValue>1</maxValue>
+</stringselect>

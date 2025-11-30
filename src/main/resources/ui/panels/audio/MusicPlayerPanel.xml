@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.audio.player">
+
+	<media-gallery>
+		<item>
+			<url>https://lbfs.eu/images/audio-player-banner.png</url>
+		</item>
+	</media-gallery>
+	
+	<section if="#isPlaying">
+		<text-display>
+			<h2> @{.audio.panel.music-player.now-playing}@</h2>
+			<h3>> {author}</h3>
+			<text>> [{title}]({url}) [{duration}]</text>
+			<!--<text>@{.audio.panel.music-player.ends-in}@</text>-->
+		</text-display>
+		<button id="b.audio.search" style="secondary">
+			<emoji>🔎</emoji>
+		</button>
+	</section>
+		
+	<section if="!#isPlaying">
+		<text-display>
+			<h2> @{.audio.panel.music-player.now-playing}@</h2>
+			<text>>  @{.audio.panel.music-player.not-playing}@</text>
+		</text-display>
+		<button id="b.audio.search" style="success">
+			<emoji>🔎</emoji>
+		</button>
+	</section>
+	
+	<section if="#isPlaying">
+		<text-display>
+			<text>**@{.audio.panel.music-player.queued}@** {queueLen}</text>
+		</text-display>
+		<button id="b.audio.queue" style="secondary">
+			<emoji>📑</emoji>
+		</button>
+	</section>
+	
+	<media-gallery if="#isPlaying &amp;&amp; #artwork != null">
+		<item>
+			<url>{artwork}</url>
+		</item>
+	</media-gallery>
+	
+	<separator divider="true" spacing="2"/>
+	
+	<action-row>
+		<button id="b.audio.pause" style="secondary" if="#isPaused">
+			<emoji>▶</emoji>
+		</button>
+		<button id="b.audio.pause" style="secondary" if="!#isPaused">
+			<emoji>⏸</emoji>
+		</button>
+		<button id="b.audio.skip" style="secondary">
+			<emoji>⏩</emoji>
+		</button>
+		<button id="b.audio.stop" style="secondary">
+			<emoji>⏹</emoji>
+		</button>
+		<button id="b.audio.repeat" style="secondary" disabled="true">
+			<emoji>🔁</emoji>
+		</button>
+		<button id="b.audio.shuffel" style="secondary"  disabled="true">
+			<emoji>🔀</emoji>
+		</button>
+	</action-row>
+	
+	<section>
+		<text-display>
+			<subtext>@{.common.panel.timestamp}@</subtext> <!-- requires {timestamp} -->
+		</text-display>
+		<button id="b.audio.settings" style="secondary">
+			<emoji>⚙</emoji>
+		</button>
+	</section>
+	
+</container>

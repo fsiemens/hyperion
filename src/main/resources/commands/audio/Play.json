@@ -1,0 +1,36 @@
+{
+	"slashData":{
+		"name" : "play",
+		"description" : "Spielt einen Song ab",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : false,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [
+			{
+				"name": "identifier",
+            	"description": "Suchbegriff oder Link zum Song",
+            	"type": 3,
+            	"required": true
+			},
+			{
+				"name": "platform",
+            	"description": "Plattform auf welcher gesucht / abgespielt werden soll",
+            	"type": 3,
+            	"required": false,
+            	"choices":[
+            		{
+            			"name": "YouTube",
+            			"value": "ytsearch"
+            		},
+            		{
+            			"name": "YouTube Music",
+            			"value": "ytmsearch"
+            		}
+            	]
+			}
+		],
+		"type" : 1
+	}
+}

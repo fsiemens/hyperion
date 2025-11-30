@@ -1,0 +1,17 @@
+{
+	"legacyData":{
+		"deleteInit":true,
+		"memberPermission": null
+	},
+	"slashData":{
+		"name" : "uiv2",
+		"description" : "UIV2 Test",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [ ],
+		"type" : 1
+	}
+}

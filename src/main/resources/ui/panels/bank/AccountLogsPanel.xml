@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.konto.logs">
+	<text-display>
+		<h1>@{.konto.panel.logs.title}@</h1>
+		<text>@{.konto.panel.logs.description}@</text>
+	</text-display>
+	
+	<separator divider="false" spacing="2" />
+	
+	<section for="logs">
+		<text-display>
+			<text if="#inbound">@{.konto.panel.logs.entry.inbound}@</text>
+			<text if="!#inbound">@{.konto.panel.logs.entry.outbound}@</text>
+		</text-display>
+		<button id="b.konto.logs.more" style="secondary" params="konto, id, page">
+			<text>@{.konto.button.logs.more}@</text>
+		</button>
+	</section>
+	
+	<text-display if="#logs.length == 0">
+		<text>*@{.konto.no-logs}@*</text>
+	</text-display>
+	
+	<separator divider="true" spacing="2" />
+	
+	<action-row>
+		<button id="b.konto.back" style="secondary" params="konto">
+			<text>@{.konto.button.back}@</text>
+		</button>
+		<button id="b.konto.logs.page-back" style="primary" params="konto, page" disabled="#currentPage &lt;= 1">
+			<emoji>⏪</emoji>
+		</button>
+		<button id="b.konto.logs.page-counter" style="primary" disabled="true">
+			<text>@{.common.panel.page-counter}@</text>
+		</button>
+		<button id="b.konto.logs.page-forward" style="primary" params="konto, page" disabled="#currentPage >= #totalPages">
+			<emoji>⏩</emoji>
+		</button>
+	</action-row>
+</container>

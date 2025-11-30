@@ -1,0 +1,13 @@
+{
+	"slashData":{
+		"name" : "inventory",
+		"description" : "Öffnet dein persönliches Inventar",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [],
+		"type" : 1
+	}
+}

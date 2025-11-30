@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.group.add-member" params="konto" >
+  <title>@{.group.button.member.add}@</title>
+  <label>
+  	<title>@{.group.modal.member.add.title}@</title>
+  	<description>@{.group.modal.member.add.description}@</description>
+  	<textInput max="32" min="1" style="short" required="true" id="user">
+  		<placeholder>@{.group.modal.member.add.placeholder}@</placeholder>
+  	</textInput>
+  </label>
+</modal>

@@ -1,0 +1,13 @@
+{
+	"slashData":{
+		"name" : "player",
+		"description" : "Öffnet den Musik-Player in diesem Channel (für jeden sichtbar)",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : false,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [],
+		"type" : 1
+	}
+}

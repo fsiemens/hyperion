@@ -1,0 +1,20 @@
+{
+	"slashData":{
+		"name" : "chat",
+		"description" : "Frage den KI-Overlord (aus China)",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : false,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [
+			{
+				"name": "prompt",
+            	"description": "Deine Nachricht an die KI",
+            	"type": 3,
+            	"required": true
+			}
+		],
+		"type" : 1
+	}
+}

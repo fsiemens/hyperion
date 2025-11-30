@@ -1,0 +1,8 @@
+{
+   	"color":29530,
+   	"description":"@{.track.embed.description}@",
+   	"footer":{
+		"text":"@{.common.embed.footer}@"
+   	},
+   	"type":"RICH"
+}

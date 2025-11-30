@@ -1,0 +1,32 @@
+{
+	"slashData":{
+		"name" : "lock",
+		"description" : "Richtet eine Sperre für dich ein, sodass du nur zu bestimmten Zeiten in einen Call darfst",
+	 	"default_member_permissions" : 0,
+	 	"dm_permission" : false,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [
+        	{
+	            "name": "lock",
+	            "description": "Uhrzeit ab welcher die Sperre beginnt [HH:MM(:SS)]",
+	            "type": 3,
+	            "required": true
+        	},
+        	{
+	            "name": "unlock",
+	            "description": "Uhrzeit ab welcher die Sperre endet [HH:MM(:SS)]",
+	            "type": 3,
+	            "required": true
+        	},
+        	{
+	            "name": "reason",
+	            "description": "Grund für die Sperre",
+	            "type": 3,
+	            "required": false
+        	}
+		],
+		"type" : 1
+	}
+}

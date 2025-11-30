@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.audio.player">
+
+	<text-display>
+		<h1>@{.audio.panel.queue.title}@</h1>
+	</text-display>
+	
+	<section for="tracks">
+		<text-display>
+			<text>[#{pos}] **[{author} - {title}]({url})** [{duration}]</text>
+		</text-display>
+		<button id="b.audio.queue.select" params="pos" style="secondary" disabled="true">
+			<text>@{.audio.button.queue.select}@</text>
+		</button>
+	</section>
+	
+	<separator divider="true" spacing="2"/>
+	
+	<action-row>
+		<button id="b.audio.back" style="secondary">
+			<text>@{.common.back}@</text>
+		</button>
+		<button id="b.audio.queue.page-back" style="primary" params="page" disabled="#currentPage &lt;= 1">
+			<emoji>⏪</emoji>
+		</button>
+		<button id="b.audio.queue.page-counter" style="primary" disabled="true">
+			<text>@{.common.panel.page-counter}@</text>
+		</button>
+		<button id="b.audio.queue.page-forward" style="primary" params="page" disabled="#currentPage >= #totalPages">
+			<emoji>⏩</emoji>
+		</button>
+	</action-row>
+	<action-row>
+		<button id="b.audio.queue.remove" style="danger" disabled="!#trackSelected">
+			<emoji>🗑</emoji>
+		</button>
+		<button id="b.audio.queue.move-top" style="secondary" disabled="!#trackSelected">
+			<emoji>⏫</emoji>
+		</button>
+		<button id="b.audio.queue.move-up" style="secondary" disabled="!#trackSelected">
+			<emoji>🔼</emoji>
+		</button>
+		<button id="b.audio.queue.move-down" style="secondary" disabled="!#trackSelected">
+			<emoji>🔽</emoji>
+		</button>
+		<button id="b.audio.queue.move-bottom" style="secondary" disabled="!#trackSelected">
+			<emoji>⏬</emoji>
+		</button>
+	</action-row>
+	
+</container>

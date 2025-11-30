@@ -1,0 +1,13 @@
+{
+	"slashData":{
+		"name" : "weather",
+		"description" : "Gibt eine zufällige Wetterkonstellation auf dem Meer zurück.",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : true,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [ ],
+		"type" : 1
+	}
+}

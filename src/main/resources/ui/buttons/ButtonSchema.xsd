@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	
+	<xs:include schemaLocation="../CommonSchema.xsd"/>
+	
+	<xs:element name="button" type="buttonType"/>
+    
+    <!--  ===== Complex Type ===== -->
+    
+    <xs:complexType name="buttonType" mixed="true">
+    	<xs:sequence>
+    		<xs:element ref="text" minOccurs="0" maxOccurs="5"/>
+    		<xs:element ref="emoji" minOccurs="0" maxOccurs="1"/>
+    	</xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="style" type="xs:string" use="required"/>
+        <xs:attribute name="params" type="paramsType" use="optional" />
+        <xs:attribute name="disabled" type="xs:string" use="optional"/>
+        <xs:attribute ref="if" use="optional"/>
+    </xs:complexType>
+</xs:schema>

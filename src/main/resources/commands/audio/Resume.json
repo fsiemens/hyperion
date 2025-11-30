@@ -1,0 +1,14 @@
+{
+	"slashData":{
+		"name" : "resume",
+		"description" : "Setzt die Wiedergabe fort",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : false,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [
+		],
+		"type" : 1
+	}
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.konto.add-manager" params="konto" >
+	<title>@{.konto.modal.manager.add}@</title>
+	<label>
+	  	<title>@{.konto.modal.manager.add.title}@</title>
+	  	<description>@{.konto.modal.manager.add.desc}@</description>
+	  	<entitySelect max="1" min="1" target="user" required="true" id="user">
+	  		<placeholder>@{.konto.modal.manager.add.placeholder}@</placeholder>
+	  	</entitySelect>
+	</label>
+</modal>
+

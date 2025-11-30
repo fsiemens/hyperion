@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<button xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ButtonSchema.xsd" id="policies.button.back" style="primary">
+  <text>@{.konto.policies.button.back}@</text>
+</button>
