@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.fabiansiemens</groupId>
 	<artifactId>hyperion</artifactId>
-	<version>0.0.11</version>
+	<version>0.1.0</version>
 	<name>Hyperion</name>
 	<description>Next Version of Hyperion Discord Bot on new Framework</description>
 	<properties>
