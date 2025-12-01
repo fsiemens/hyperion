@@ -1,5 +1,8 @@
 name: Release
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:
@@ -7,7 +10,6 @@ on:
 
 jobs:
   release:
-    permissions: write-all
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +27,6 @@ jobs:
 
       - name: Create GitHub Release and upload JAR
         uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           files: target/*.jar
