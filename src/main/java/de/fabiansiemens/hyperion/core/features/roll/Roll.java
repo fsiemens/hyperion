@@ -349,6 +349,9 @@ public class Roll {
 			return c;
 		
 		for(Dice dice : getResults()) {
+			if(dice.isIgnored())
+				continue;
+			
 			if(dice.getResult() >= getCritThreshold())
 				c++;
 		}
@@ -361,6 +364,9 @@ public class Roll {
 			return c;
 		
 		for(Dice dice : getResults()) {
+			if(dice.isIgnored())
+				continue;
+			
 			if(dice.getResult() <= getFailThreshold())
 				c++;
 		}

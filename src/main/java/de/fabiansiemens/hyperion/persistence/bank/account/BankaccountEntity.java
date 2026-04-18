@@ -21,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.MapKeyEnumerated;
 import jakarta.persistence.OneToMany;
@@ -70,6 +71,12 @@ public class BankaccountEntity {
 	
 	@NonNull
 	@Nonnull
+	@ElementCollection
+	@CollectionTable(
+	    name = "account_managers",
+	    joinColumns = @JoinColumn(name = "account_id")
+	)
+	@Column(name = "manager_id")
 	private List<Long> managerIds;
 	
 	public Map<AccountPolicies, Boolean> getPolicies() {

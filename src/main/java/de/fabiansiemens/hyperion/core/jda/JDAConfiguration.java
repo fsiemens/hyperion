@@ -3,6 +3,8 @@ package de.fabiansiemens.hyperion.core.jda;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.naming.ConfigurationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -69,14 +71,16 @@ public class JDAConfiguration {
 	
 	@DependsOn("launchArgumentService")
 	@Bean(name = "jdaToken")
-	String jdaToken(@Autowired LaunchArgumentService las, @Autowired Environment env) {
+	String jdaToken(@Autowired LaunchArgumentService las, @Autowired Environment env) throws ConfigurationException {
 		String jdaToken = env.getProperty(JDA_TOKEN);
 		
 		if(jdaToken != null)
 			log.debug("Using token: {}...{}", jdaToken.substring(0, 3), jdaToken.substring(jdaToken.length() -3, jdaToken.length()));
-		else
+		else {
 			log.error("No JDA-Token provided");
-		
+			throw new ConfigurationException("No JDA-Token provided");
+		}
+			
 		log.info("Using Token: {}...", jdaToken.substring(0, 5));
 		return jdaToken;
 	}

@@ -17,6 +17,7 @@ import de.fabiansiemens.hyperion.persistence.bank.account.BankaccountEntity;
 import de.fabiansiemens.hyperion.persistence.bank.account.group.GroupAccountEntity;
 import de.fabiansiemens.hyperion.persistence.bank.log.AccountLogEntity;
 import de.fabiansiemens.hyperion.persistence.bank.log.GroupAccountLogEntity;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
@@ -26,6 +27,7 @@ import net.dv8tion.jda.api.entities.User;
 @Slf4j
 @Service
 @Primary
+@Transactional
 @AllArgsConstructor
 public class AccountService {
 
@@ -277,7 +279,7 @@ public class AccountService {
 	public UpdateAction addManager(@NonNull BankAccount account, @NonNull User manager) {
 		if(account.hasManager(manager.getIdLong()))
 			return new UpdateAction();
-		
+		log.info("Adding Manager {} to account {}", manager.getIdLong(), account.getId());
 		account.getManagerIds().add(manager.getIdLong());
 		return new UpdateAction(account);
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -54,7 +55,7 @@ public class JDAManager implements ManageableSystem {
 						final boolean jdaRequestTimeoutRetry,
 						@NonNull final JDAPresenceService jdaPresenceService,
 						@NonNull final IEventManager eventManager,
-						@NonNull final VoiceDispatchInterceptor voiceDispatchInterceptor
+						@Autowired(required = false) final VoiceDispatchInterceptor voiceDispatchInterceptor
 						) {
 		
 		this.context = context;
@@ -75,16 +76,19 @@ public class JDAManager implements ManageableSystem {
 	public void launch() {
 		log.info("Launching JDA");
 		
-		this.jda = JDABuilder.createDefault(jdaToken)
+		JDABuilder jdaBuilder = JDABuilder.createDefault(jdaToken)
 			.enableCache(jdaCacheFlags)
 			.enableIntents(jdaGatewayIntents)
 			.setMemberCachePolicy(jdaMemberCachePolicy)
 			.setAutoReconnect(jdaAutoReconnect)
 			.setRequestTimeoutRetry(jdaRequestTimeoutRetry)
 			.setEventManager(eventManager)
-			.setVoiceDispatchInterceptor(voiceDispatchInterceptor)
-			.addEventListeners(retrieveListeners().toArray())
-			.build();
+			.addEventListeners(retrieveListeners().toArray());
+		
+		if(this.voiceDispatchInterceptor != null)
+			jdaBuilder.setVoiceDispatchInterceptor(voiceDispatchInterceptor);
+		
+		this.jda = 	jdaBuilder.build();
 		
 		jdaPresenceService.setDefaultPresence(this.jda);
 		

@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,9 @@ import net.dv8tion.jda.api.managers.DirectAudioController;
 @Service
 public class AudioService {
 	
+	@Value("${audio.player.manager:disabled}")
+	private String audioPlayerMode;
+	
 	private LavalinkClient lavalinkClient;
 	private UiProviderService uiProvider;
 	private LocalizedExpressionService les;
@@ -52,7 +57,7 @@ public class AudioService {
 	private BiMap<Guild, JointAudioPlayer> playerMap;
 	private Map<Guild, List<AudioPlayerPanelHandler>> panelHandlers;
 	
-	public AudioService(UiProviderService uiProvider, LocalizedExpressionService les, JointAudioPlayerManager manager, @Lazy TrackScheduler scheduler, LavalinkClient lavalinkClient, JDAManager jdaManager) {
+	public AudioService(UiProviderService uiProvider, LocalizedExpressionService les, JointAudioPlayerManager manager, @Lazy TrackScheduler scheduler, @Autowired(required = false) LavalinkClient lavalinkClient, JDAManager jdaManager) {
 		this.uiProvider = uiProvider;
 		this.les = les;
 		this.manager = manager;
@@ -66,6 +71,9 @@ public class AudioService {
 	
 	@PostConstruct
 	public void init() {
+		if(!audioPlayerMode.equals("lavalink"))
+			return;
+			
 		try {
 			int c = 0;
 			for(Method method : listener.asLavalinkListener().getClass().getMethods()) {

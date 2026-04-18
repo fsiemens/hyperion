@@ -59,6 +59,8 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 	
 	@InteractionCallback(id = "b.konto.back")
 	public void onKontoBackButton(ButtonInteractionEvent event, Arguments args) throws UiParseException, AccountNotFoundException, ArgumentTypeException {
+		event.deferEdit().queue();
+		
 		BankAccount account;
 		try {
 			account = getAccount(args.get("konto"));
@@ -68,11 +70,11 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 		}
 		
 		if(account instanceof GroupAccount groupAccount) {
-			event.editComponents(getGroupPanel(groupAccount, args, event.getGuild(), event.getUser())).useComponentsV2().queue();
+			event.getHook().editOriginalComponents(getGroupPanel(groupAccount, args, event.getGuild(), event.getUser())).useComponentsV2().queue();
 			return;
 		}
 		
-		event.editComponents(getKontoPanel(account, args, event.getGuild(), event.getUser())).useComponentsV2().queue();
+		event.getHook().editOriginalComponents(getKontoPanel(account, args, event.getGuild(), event.getUser())).useComponentsV2().queue();
 	}
 	
 	/**
@@ -142,14 +144,16 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 	public void onRefreshButtonInteraction(ButtonInteractionEvent event, Arguments args) throws AccountNotFoundException, ArgumentTypeException, UiParseException {
 		BankAccount account = getAccount(args.get("konto"));
 		
+		event.deferEdit().queue();
+		
 		if(account instanceof GroupAccount groupAccount) {
 			Container groupPanel = getGroupPanel(groupAccount, args, event.getGuild(), event.getUser());
-			event.editComponents(groupPanel).useComponentsV2().queue();
+			event.getHook().editOriginalComponents(groupPanel).useComponentsV2().queue();
 			return;
 		}
 		
 		Container accountPanel = getKontoPanel(account, args, event.getGuild(), event.getUser());
-		event.editComponents(accountPanel).useComponentsV2().queue();
+		event.getHook().editOriginalComponents(accountPanel).useComponentsV2().queue();
 	}
 	
 	protected BankAccount getAccount(String idRaw) throws AccountNotFoundException, NumberFormatException {
@@ -213,8 +217,10 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 	private void onBankCommandInteraction(SlashCommandInteractionEvent event, String mode, String type) throws UiParseException {
 		Button accountCreateButton = uiProvider.buttonOf(KONTO_CREATE_BUTTON_PATH, event.getGuild());
 		
+		event.deferReply(true).queue();
+		
 		if(!bankService.hasAccount(event.getUser())) {
-			event.reply(les.getLocalizedExpression("warn.konto.no-account", event.getGuild())).setEphemeral(true)
+			event.getHook().sendMessage(les.getLocalizedExpression("warn.konto.no-account", event.getGuild())).setEphemeral(true)
 				.addComponents(ActionRow.of(accountCreateButton)).queue();
 			return;
 		}
@@ -231,7 +237,7 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 		options.add(SelectOption.of("Create new...", "new"));
 		
 		StringSelectMenu accountSelect = uiProvider.stringSelectOf(ACCOUNT_STRING_SELECT_PATH, event.getGuild(), args, options);
-		event.reply(les.getLocalizedExpression(".konto.select-account", event.getGuild())).setEphemeral(true)
+		event.getHook().sendMessage(les.getLocalizedExpression(".konto.select-account", event.getGuild())).setEphemeral(true)
 			.addComponents(ActionRow.of(accountSelect)).queue();
 	}
 	
@@ -246,33 +252,35 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 			return;
 		}
 		
+		event.deferReply(true).queue();
+		
 		//Choose existing
 		String idRaw = event.getSelectedOptions().getFirst().getValue();
 		BankAccount account = getAccount(idRaw);
 		
 		if(account == null) {
 			log.warn("Invalid Selector State. Account with the id '{}' does not exist.", idRaw);
-			event.reply(les.getLocalizedExpression("error.konto.select.unknown-id", event.getGuild())).setEphemeral(true).queue();
+			event.getHook().sendMessage(les.getLocalizedExpression("error.konto.select.unknown-id", event.getGuild())).setEphemeral(true).queue();
 			return;
 		}
 		
 		if(account instanceof GroupAccount groupAccount) {
 			//TODO open group account (+ authorize is member, req. konto args)
 			Container groupPanel = getGroupPanel(groupAccount, args, event.getGuild(), event.getUser());
-			event.replyComponents(groupPanel).useComponentsV2().setEphemeral(true).queue();
+			event.getHook().sendMessageComponents(groupPanel).useComponentsV2().setEphemeral(true).queue();
 			return;
 		}
 	 
 		//Open User Account (authorize)
 		if(!isOwnerOrManager(account, event.getUser())) {
 			log.warn("Data Leak / Unauthorized Access. User '{}' tried to select an account from user '{}'.", event.getUser().getIdLong(), account.getOwnerId());
-			event.reply(les.getLocalizedExpression("error.konto.unauthorized", event.getGuild())).setEphemeral(true).queue();
+			event.getHook().sendMessage(les.getLocalizedExpression("error.konto.unauthorized", event.getGuild())).setEphemeral(true).queue();
 			return;
 		}
 		
 		args.put("show", true);
 		Container accountPanel = getKontoPanel(account, args, event.getGuild(), event.getUser());
-		event.replyComponents(accountPanel).useComponentsV2().setEphemeral(true).queue();
+		event.getHook().sendMessageComponents(accountPanel).useComponentsV2().setEphemeral(true).queue();
 	}
 	
 	private void preSelectAccount(StringSelectInteractionEvent event) throws UiParseException, NumberFormatException, AccountNotFoundException {
@@ -281,7 +289,7 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 		
 		if(account == null) {
 			log.warn("Invalid Selector State. Account with the id '{}' does not exist.", idRaw);
-			event.reply(les.getLocalizedExpression("error.konto.select.unknown-id", event.getGuild())).setEphemeral(true).queue();
+			event.getHook().sendMessage(les.getLocalizedExpression("error.konto.select.unknown-id", event.getGuild())).setEphemeral(true).queue();
 			return;
 		}
 		
@@ -294,7 +302,7 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 		
 		if(!hasKonto) {
 			Button groupCreateButton = uiProvider.buttonOf(GROUP_CREATE_BUTTON_PATH, event.getGuild(), args);
-			event.reply(les.getLocalizedExpression("warn.group.no-account", event.getGuild())).setEphemeral(true)
+			event.getHook().sendMessage(les.getLocalizedExpression("warn.group.no-account", event.getGuild())).setEphemeral(true)
 				.addComponents(ActionRow.of(groupCreateButton)).queue();
 			return;
 		}
@@ -305,7 +313,7 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 		options.add(SelectOption.of("Create new...", "new"));
 		
 		StringSelectMenu groupSelect = uiProvider.stringSelectOf(ACCOUNT_STRING_SELECT_PATH, event.getGuild(), options);
-		event.reply(les.getLocalizedExpression(".group.select-account", event.getGuild())).setEphemeral(true)
+		event.getHook().sendMessage(les.getLocalizedExpression(".group.select-account", event.getGuild())).setEphemeral(true)
 			.addComponents(ActionRow.of(groupSelect)).queue();
 	}
 	
@@ -315,12 +323,12 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 		GroupAccount group = (GroupAccount) getAccount(groupIdRaw);
 		
 		if(account == null || group == null) {
-			event.reply(les.getLocalizedExpression("error.group.konto-not-found", event.getGuild())).setEphemeral(true).queue();
+			event.getHook().sendMessage(les.getLocalizedExpression("error.group.konto-not-found", event.getGuild())).setEphemeral(true).queue();
 			return;
 		}
 		
 		bankService.addMember(group, account).commit();
-		event.reply(les.getLocalizedExpression("success.group.add", event.getGuild())).setEphemeral(true).queue();
+		event.getHook().sendMessage(les.getLocalizedExpression("success.group.add", event.getGuild())).setEphemeral(true).queue();
 	}
 	
 	private void leaveGroup(StringSelectInteractionEvent event, String groupIdRaw) throws NumberFormatException, AccountNotFoundException {
@@ -329,11 +337,11 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 		GroupAccount group = (GroupAccount) getAccount(groupIdRaw);
 		
 		if(account == null || group == null) {
-			event.reply(les.getLocalizedExpression("error.group.konto-not-found", event.getGuild())).setEphemeral(true).queue();
+			event.getHook().sendMessage(les.getLocalizedExpression("error.group.konto-not-found", event.getGuild())).setEphemeral(true).queue();
 			return;
 		}
 		
 		bankService.removeMember(group, account).commit();
-		event.reply(les.getLocalizedExpression("success.group.leave", event.getGuild())).setEphemeral(true).queue();
+		event.getHook().sendMessage(les.getLocalizedExpression("success.group.leave", event.getGuild())).setEphemeral(true).queue();
 	}
 }

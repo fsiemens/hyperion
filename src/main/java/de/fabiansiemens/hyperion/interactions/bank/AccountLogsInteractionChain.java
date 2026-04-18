@@ -41,10 +41,11 @@ public class AccountLogsInteractionChain extends CommonAccountInteractionChain {
 
 	@InteractionCallback(id = "b.konto.logs")
 	public void onAccountLogsButtonInteraction(ButtonInteractionEvent event, Arguments args) throws AccountNotFoundException, ArgumentTypeException, UiParseException {
+		event.deferEdit().queue();
 		BankAccount account = getAccount(args.get("konto"));
 		
 		if(!account.hasPolicy(AccountPolicies.ALLOW_VIEW_LOGS)) {
-			event.reply(les.getLocalizedExpression("error.konto.view-logs-prohibited", event.getGuild())).setEphemeral(true).queue();
+			event.getHook().sendMessage(les.getLocalizedExpression("error.konto.view-logs-prohibited", event.getGuild())).setEphemeral(true).queue();
 			return;
 		}
 		
@@ -68,6 +69,7 @@ public class AccountLogsInteractionChain extends CommonAccountInteractionChain {
 	
 	@InteractionCallback(id = "b.konto.logs.more")
 	public void onAccountLogsDetailsButtonInteraction(ButtonInteractionEvent event, Arguments args) throws AccountNotFoundException, ArgumentTypeException, UiParseException {
+		event.deferEdit().queue();
 		BankAccount account = getAccount(args.get("konto"));
 		AccountLog logEntry;
 		int page = 0;
@@ -76,17 +78,18 @@ public class AccountLogsInteractionChain extends CommonAccountInteractionChain {
 			page = args.get("page").asInteger();
 		} catch (ArgumentTypeException | NoSuchElementException e) {
 			log.warn("Exception while displaying log details: ", e);
-			event.reply(les.getLocalizedExpression("error.konto.log-not-found", event.getGuild())).setEphemeral(true).queue();
+			event.getHook().sendMessage(les.getLocalizedExpression("error.konto.log-not-found", event.getGuild())).setEphemeral(true).queue();
 			return;
 		}
 		
 		args = createLogArguments(account, logEntry, event.getJDA(), event.getUser(), page);
 		Container panel = uiProvider.panelOf(ACCOUNT_LOGS_DETAILS_PANEL_PATH, event.getGuild(), args);
-		event.editComponents(panel).useComponentsV2().queue();
+		event.getHook().editOriginalComponents(panel).useComponentsV2().queue();
 	}
 	
 	@InteractionCallback(id = "b.konto.logs.back")
 	public void onAccountLogsDetailsBackButtonInteraction(ButtonInteractionEvent event, Arguments args) throws AccountNotFoundException, ArgumentTypeException, UiParseException {
+		event.deferEdit().queue();
 		BankAccount account = getAccount(args.get("konto"));
 		int page = args.get("page").asInteger();
 		displayLogPage(event, account, page);
@@ -112,7 +115,7 @@ public class AccountLogsInteractionChain extends CommonAccountInteractionChain {
 			.put("totalPages", totalPages);
 		
 		Container panel = uiProvider.panelOf(ACCOUNT_LOGS_PANEL_PATH, event.getGuild(), args);
-		event.editComponents(panel).useComponentsV2().queue();
+		event.getHook().editOriginalComponents(panel).useComponentsV2().queue();
 	}
 
 	private Arguments prepareLogsArgs(BankAccount account, Arguments args, JDA jda, User user, Page<AccountLog> logs) {

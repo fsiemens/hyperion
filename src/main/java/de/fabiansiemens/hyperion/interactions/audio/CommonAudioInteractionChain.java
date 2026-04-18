@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Primary;
 
 import de.fabiansiemens.hyperion.core.annotations.InteractionCallback;
 import de.fabiansiemens.hyperion.core.annotations.InteractionChain;
-import de.fabiansiemens.hyperion.core.exceptions.ArgumentTypeException;
 import de.fabiansiemens.hyperion.core.exceptions.AuthorizationException;
 import de.fabiansiemens.hyperion.core.exceptions.UiParseException;
 import de.fabiansiemens.hyperion.core.features.audio.AudioService;
@@ -34,6 +33,9 @@ public class CommonAudioInteractionChain extends InteractionChainBase {
 	@Value("${lavalink.search-prefix.youtube-music}")
 	public String ytmSearchPrefix;
 	
+	@Value("${audio.player.manager:disabled}")
+	public String activeAudioManager;
+	
 	protected final AudioService audioService;
 	protected final LocalizedExpressionService les;
 	
@@ -46,9 +48,16 @@ public class CommonAudioInteractionChain extends InteractionChainBase {
 	}
 
 	public void onMusicPlayerCommandInteraction(SlashCommandInteractionEvent event) throws UiParseException {
-		if(event.getGuild() == null)
+		if(event.getGuild() == null) {
 			event.reply(les.getLocalizedExpression("error.common.guild-only", event.getGuild())).setEphemeral(true).queue();
-		
+			return;
+		}
+			
+		if(this.activeAudioManager.equals("disabled")) {
+			event.reply(les.getLocalizedExpression("error.common.not-available", event.getGuild())).setEphemeral(true).queue();
+			return;
+		}
+			
 		if(event.getGuild().getSelfMember().getVoiceState().getChannel() != null 
 				&& event.getMember().getVoiceState().getChannel() == null 
 				&& !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getSelfMember().getVoiceState().getChannel())) {

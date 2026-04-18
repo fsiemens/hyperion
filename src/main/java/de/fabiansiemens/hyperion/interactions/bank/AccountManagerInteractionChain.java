@@ -12,6 +12,7 @@ import de.fabiansiemens.hyperion.core.exceptions.ArgumentTypeException;
 import de.fabiansiemens.hyperion.core.exceptions.UiParseException;
 import de.fabiansiemens.hyperion.core.features.bank.BankAccount;
 import de.fabiansiemens.hyperion.core.util.Arguments;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.components.container.Container;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
@@ -19,6 +20,7 @@ import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.modals.Modal;
 
+@Slf4j
 @InteractionChain
 public class AccountManagerInteractionChain extends CommonAccountInteractionChain {
 
@@ -69,6 +71,7 @@ public class AccountManagerInteractionChain extends CommonAccountInteractionChai
 		List<Long> ids = event.getValue("user").getAsLongList();
 		
 		if(!ids.isEmpty()) {
+			log.info("Adding Manager: {}", ids);
 			User user = event.getGuild().getMemberById(ids.getFirst()).getUser();
 			bankService.addManager(account, user).commit();
 		}

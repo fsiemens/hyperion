@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -16,6 +17,7 @@ import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager
 
 import de.fabiansiemens.hyperion.core.cli.LaunchArgumentService;
 import de.fabiansiemens.hyperion.core.features.audio.common.JointAudioPlayerManager;
+import de.fabiansiemens.hyperion.core.features.audio.dummy.DummyAudioManager;
 import de.fabiansiemens.hyperion.core.features.audio.lavalink.LavalinkAudioManager;
 import de.fabiansiemens.hyperion.core.features.audio.lavaplayer.LavaplayerAudioManager;
 import dev.arbjerg.lavalink.client.Helpers;
@@ -50,6 +52,7 @@ public class AudioConfiguration {
 	
 	@DependsOn("nodeOptions")
 	@Bean(name = "lavalink-client")
+	@ConditionalOnProperty(name = "audio.player.manager", havingValue = "lavalink")
 	LavalinkClient lavalinkClient(String jdaToken, List<NodeOptions> nodeOptions) {
 		LavalinkClient client = new LavalinkClient(Helpers.getUserIdFromToken(jdaToken));
 		nodeOptions.stream().forEach(node -> client.addNode(node));
@@ -64,11 +67,13 @@ public class AudioConfiguration {
 	
 	@Bean
 	@DependsOn("lavalink-client")
+	@ConditionalOnProperty(name = "audio.player.manager", havingValue = "lavalink")
 	VoiceDispatchInterceptor voiceDispatchInterceptor(LavalinkClient client) {
 		return new JDAVoiceUpdateListener(client);
 	}
 	
 	@Bean(name = "nodeOptions")
+	@ConditionalOnProperty(name = "audio.player.manager", havingValue = "lavalink")
 	List<NodeOptions> nodeOptions(Environment env) {
 		List<NodeOptions> nodeOptions = new LinkedList<>();
 		nodeOptions.add(new NodeOptions.Builder()
@@ -83,22 +88,28 @@ public class AudioConfiguration {
 	}
 	
 	@Bean
+	@ConditionalOnProperty(name = "audio.player.manager", havingValue = "lavalink")
 	JDAVoiceUpdateListener jdaVoiceUpdateListener(LavalinkClient lavaClient) {
 		return new JDAVoiceUpdateListener(lavaClient);
 	}
 	
 	
 	@Bean
-	JointAudioPlayerManager audioPlayerManager(@Autowired LaunchArgumentService las, @Autowired Environment env, LavalinkClient lavalinkClient) {
+	JointAudioPlayerManager audioPlayerManager(@Autowired LaunchArgumentService las, @Autowired Environment env, @Autowired(required = false) LavalinkClient lavalinkClient) {
 		String activeAudioManager = las.env.getProperty("audio.player.manager");
 		if(activeAudioManager == null) {
 			throw new IllegalArgumentException("A Audio Player must be defined at launch property 'audio.player.manager'. Choose either 'lavaplayer' or 'lavalink'.");
 		}
 		
 		switch(activeAudioManager) {
+		case "disabled":
+			return dummyAudioPlayerManager(env);
 		case "lavaplayer":
 			return lavaplayerAudioPlayerManager(env);
 		case "lavalink":
+			if(lavalinkClient == null)
+				throw new IllegalStateException("LavalinkClient Bean is null despite audio.player.manager set to lavalink.");
+			
 			return lavalinkAudioPlayerManager(env, lavalinkClient);
 		default: throw new IllegalArgumentException("Provided value ('" + activeAudioManager + "') for launch property 'audio.player.manager' is not supported.");
 		}
@@ -153,6 +164,10 @@ public class AudioConfiguration {
 	
 	private LavalinkAudioManager lavalinkAudioPlayerManager(Environment env, LavalinkClient lavalinkClient) {
 		return new LavalinkAudioManager(lavalinkClient);
+	}
+	
+	private DummyAudioManager dummyAudioPlayerManager(Environment env) {
+		return new DummyAudioManager();
 	}
 	
 	

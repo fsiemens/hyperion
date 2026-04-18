@@ -52,13 +52,15 @@ public class GroupMemberInteractionChain extends CommonAccountInteractionChain {
 	
 	@InteractionCallback(id = "m.group.add-member")
 	public void onGroupMemberAddModalInteraction(ModalInteractionEvent event, Arguments args) throws NumberFormatException, AccountNotFoundException, ArgumentTypeException, UiParseException {
+		event.deferEdit().queue();
+		
 		String idRaw = event.getValue("user").getAsString();
 		BankAccount account = getAccount(idRaw);
 		GroupAccount group = (GroupAccount) getAccount(args.get("konto"));
 		
 		bankService.addMember(group, account).commit();
 		Container groupPanel = getGroupPanel(group, args, event.getGuild(), event.getUser());
-		event.editComponents(groupPanel).useComponentsV2().queue();
+		event.getHook().editOriginalComponents(groupPanel).useComponentsV2().queue();
 	}
 	
 	@InteractionCallback(id = "b.group.leave")

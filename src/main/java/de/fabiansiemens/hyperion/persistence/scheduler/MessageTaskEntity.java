@@ -34,7 +34,7 @@ public class MessageTaskEntity extends TaskEntity {
 	
 	private boolean repeat;
 	
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	private RepeatCycle repeatCycle;
 
 }
