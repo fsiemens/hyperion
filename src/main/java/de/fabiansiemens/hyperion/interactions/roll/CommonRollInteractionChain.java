@@ -13,6 +13,7 @@ import de.fabiansiemens.hyperion.core.events.LegacyCommandEvent;
 import de.fabiansiemens.hyperion.core.exceptions.UiParseException;
 import de.fabiansiemens.hyperion.core.features.roll.RollService;
 import de.fabiansiemens.hyperion.core.features.roll.dto.RollPresetDto;
+import de.fabiansiemens.hyperion.core.features.roll.v2.DiceParseException;
 import de.fabiansiemens.hyperion.core.features.roll.v2.RollCacheEntry;
 import de.fabiansiemens.hyperion.core.features.roll.v2.execution.ExecutionNode;
 import de.fabiansiemens.hyperion.core.guild.GuildService;
@@ -61,7 +62,13 @@ public class CommonRollInteractionChain extends InteractionChainBase {
 	
 	public void onRollLegacyCommandInteraction(LegacyCommandEvent event) throws UiParseException {
 		Guild guild = (event.isFromGuild() ? event.getGuild() : null);
-		ExecutionNode result = rollService.evaluate(event.getPrompt());
+		ExecutionNode result;
+		try {
+			result = rollService.evaluate(event.getPrompt());
+		} catch (DiceParseException | IllegalArgumentException e) {
+			event.reply(les.getLocalizedExpression("error.roll.invalid-expression", guild, Arguments.of("message", e.getMessage()))).queue();
+			return;
+		}
 		String reply = getReply(result, event.getGuild(), event.getMessage().getAuthor());
 		
 		Button rollDetailButton = uiProvider.buttonOf(ROLL_DETAIL_BUTTON_PATH, guild);
@@ -84,7 +91,13 @@ public class CommonRollInteractionChain extends InteractionChainBase {
 		}
 		
 		//if prompt option is set
-		ExecutionNode result = rollService.evaluate(prompt);
+		ExecutionNode result;
+		try {
+			result = rollService.evaluate(prompt);
+		} catch (DiceParseException | IllegalArgumentException e) {
+			event.reply(les.getLocalizedExpression("error.roll.invalid-expression", event.getGuild(), Arguments.of("message", e.getMessage()))).setEphemeral(true).queue();
+			return;
+		}
 		String reply = getReply(result, event.getGuild(), event.getUser());
 		
 		Button rollDetailButton = uiProvider.buttonOf(ROLL_DETAIL_BUTTON_PATH, event.getGuild());
@@ -183,9 +196,10 @@ public class CommonRollInteractionChain extends InteractionChainBase {
 			.put("label", null)
 			.put("prompt", result.getPrompt());
 			
-		if(result.successCount() > Math.floorDiv(result.getChecks().size(), 2))
+		int checkCount = result.getChecks().size();
+		if(result.successCount() * 2 > checkCount)
 			args.put("check", "@{.roll.succeeds}@");
-		else if(result.successCount() < Math.floorDiv(result.getChecks().size(), 2))
+		else if(result.successCount() * 2 < checkCount)
 			args.put("check", "@{.roll.fails}@");
 		else
 			args.put("check", "@{.roll.draws}@");

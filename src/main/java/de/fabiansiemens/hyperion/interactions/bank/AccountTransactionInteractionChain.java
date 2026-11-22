@@ -113,6 +113,9 @@ public class AccountTransactionInteractionChain extends CommonAccountInteraction
 	private void handleTransfer(ModalInteractionEvent event, BankAccount account, BankAccount counterpart, double amount, String usage) throws AuthorizationException {
 		if(counterpart == null)
 			throw new IllegalArgumentException("error.konto.parse-receiver-error");
+
+		if(counterpart.getId().equals(account.getId()))
+			throw new IllegalArgumentException("error.konto.transfer.same-account");
 		
 		authorize(account.hasPolicy(AccountPolicies.ALLOW_SENDING_TRANSFER) && (isOwnerOrManager(account, event.getUser()) || account.hasPolicy(AccountPolicies.ALLOW_MEMBER_TRANSFER)), "error.konto.send-transfer-prohibited");
 		authorize(counterpart.hasPolicy(AccountPolicies.ALLOW_RECEIVING_TRANSFER), "error.konto.receive-transfer-prohibited");

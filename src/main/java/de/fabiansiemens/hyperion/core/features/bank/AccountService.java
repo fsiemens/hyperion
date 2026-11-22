@@ -241,7 +241,7 @@ public class AccountService {
 	public Optional<AccountLog> findLogById(long id) {
 		Optional<AccountLogEntity> log = persistenceService.findLogById(id);
 		if(log.isEmpty())
-			return null;
+			return Optional.empty();
 		
 		if(log.get() instanceof GroupAccountLogEntity gale) {
 			return Optional.of(new GroupAccountLog(gale));
@@ -252,9 +252,12 @@ public class AccountService {
 
 	@Transactional
 	public UpdateAction deposit(final @NonNull BankAccount account, final @NonNull String sender, final @NonNull Double amount, final @NonNull String usage, final @NonNull User user) throws IllegalArgumentException {
-		if(amount <= 0)
+		if(!Double.isFinite(amount) || amount <= 0)
 			throw new IllegalArgumentException("error.konto.transfer.amount-negative");
 		
+		if(account instanceof GroupAccount g && g.getMembers().isEmpty())
+			throw new IllegalArgumentException("error.group.no-members");
+
 		if(account.hasPolicy(AccountPolicies.SAVE_LOGS)) {
 			AccountLog log = createAccountLog(account, amount, "@{.konto.this}@", sender, usage, true);
 			account.addLogEntry(log);
@@ -281,7 +284,7 @@ public class AccountService {
 
 	@Transactional
 	public UpdateAction transfer(final @NonNull BankAccount sender, final @NonNull BankAccount receiver, final @NonNull Double amount, final @NonNull String usage, final @NonNull User user) throws IllegalArgumentException {
-		if(amount <= 0)
+		if(!Double.isFinite(amount) || amount <= 0)
 			throw new IllegalArgumentException("error.konto.transfer.amount-negative");
 		
 		UpdateAction a = withdraw(sender, receiver.getName() + " (" + receiver.getId() + ")", amount, usage, user);
@@ -292,9 +295,12 @@ public class AccountService {
 	
 	@Transactional
 	public UpdateAction withdraw(final @NonNull BankAccount account, final @NonNull String receiver, final @NonNull Double amount, final @NonNull String usage, final @NonNull User user) throws IllegalArgumentException {
-		if(amount <= 0)
+		if(!Double.isFinite(amount) || amount <= 0)
 			throw new IllegalArgumentException("error.konto.transfer.amount-negative");
 		
+		if(account instanceof GroupAccount g && g.getMembers().isEmpty())
+			throw new IllegalArgumentException("error.group.no-members");
+
 		if(account.hasPolicy(AccountPolicies.SAVE_LOGS)) {
 			AccountLog log = createAccountLog(account, amount, receiver, "@{.konto.this}@", usage, false);
 			account.addLogEntry(log);
@@ -308,7 +314,7 @@ public class AccountService {
 		}
 		
 		GroupAccount group = (GroupAccount) account;
-		GroupAccountLog log = createGroupLog(group, amount, receiver, "@{.konto.this}@", usage, true, user);
+		GroupAccountLog log = createGroupLog(group, amount, receiver, "@{.konto.this}@", usage, false, user);
 		group.addLogEntry(log);
 		Double share = amount / group.getMembers().size();
 		UpdateAction action = new UpdateAction(new BankAccount[0]);

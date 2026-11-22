@@ -25,7 +25,7 @@ public class GroupAccountEntity extends BankaccountEntity {
 	
 	@NonNull
 	@Nonnull
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<BankaccountEntity> members;
 	
 	public GroupAccountEntity(

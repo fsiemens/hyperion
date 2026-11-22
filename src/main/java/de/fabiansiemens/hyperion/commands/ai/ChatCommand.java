@@ -72,12 +72,16 @@ public class ChatCommand extends SlashCommandBase {
 			thoughts = split[0].substring("<think>".length());
 		}
 
-		do {
-			int min = Math.min(answer.length(), 1999);
-			event.getHook().sendMessage(answer.substring(0, min)).setEphemeral(true).queue();
-			if(answer.length() > Message.MAX_CONTENT_LENGTH)
-				answer = answer.substring(2000);
-		} while(answer.length() > Message.MAX_CONTENT_LENGTH);
+		answer = answer.strip();
+		if(answer.isEmpty()) {
+			event.getHook().sendMessage(les.getLocalizedExpression("error.chat.no-response", event.getGuild())).setEphemeral(true).queue();
+			return;
+		}
+		
+		for(int start = 0; start < answer.length(); start += Message.MAX_CONTENT_LENGTH) {
+			int end = Math.min(answer.length(), start + Message.MAX_CONTENT_LENGTH);
+			event.getHook().sendMessage(answer.substring(start, end)).setEphemeral(true).queue();
+		}
 		
 		if(!thoughts.isBlank()) {
 			AttachedFile thoughtsFile = AttachedFile.fromData(thoughts.getBytes(), "thoughts.txt");

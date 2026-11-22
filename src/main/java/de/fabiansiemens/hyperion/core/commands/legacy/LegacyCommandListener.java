@@ -71,6 +71,7 @@ public class LegacyCommandListener implements ManageableSystem {
 		if(!(command instanceof LegacyCommand)) {
 			args.put("command", command.getName());
 			sendLocalized("error.legacy-command.not-legacy", event, args);
+			return;
 		}
 		
 		try {
