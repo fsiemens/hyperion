@@ -1,6 +1,6 @@
 package de.fabiansiemens.hyperion.persistence.bank.account;
 
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,10 +16,12 @@ import de.fabiansiemens.hyperion.persistence.bank.account.group.GroupAccountEnti
 import de.fabiansiemens.hyperion.persistence.bank.account.group.GroupAccountRepository;
 import de.fabiansiemens.hyperion.persistence.bank.log.AccountLogEntity;
 import jakarta.annotation.Nonnull;
+import jakarta.transaction.Transactional;
 import lombok.NonNull;
 
 @Service
 @Primary
+@Transactional
 public class AccountPersistenceService extends CrudPersistenceService<BankaccountEntity, Long, GroupAccountRepository> {
 	
 	public AccountPersistenceService(GroupAccountRepository repos) {
@@ -27,7 +29,7 @@ public class AccountPersistenceService extends CrudPersistenceService<Bankaccoun
 	}
 
 	public BankaccountEntity createAccount(Long userId, @NonNull String name, @NonNull Map<AccountPolicies, Boolean> policy, List<AccountLogEntity> logs) {
-		BankaccountEntity account = new BankaccountEntity(userId, 0.0, name, policy, logs, new LinkedList<>());
+		BankaccountEntity account = new BankaccountEntity(userId, 0.0, name, policy, logs, new HashSet<>());
 		return repository.save(account);
 	}
 	
@@ -37,7 +39,7 @@ public class AccountPersistenceService extends CrudPersistenceService<Bankaccoun
 			@NonNull Map<AccountPolicies, Boolean> policy, 
 			@NonNull List<AccountLogEntity> logs, 
 			@NonNull List<BankaccountEntity> members ) {
-		GroupAccountEntity group = new GroupAccountEntity(ownerId, 0, name, policy, logs, members, new LinkedList<>());
+		GroupAccountEntity group = new GroupAccountEntity(ownerId, 0, name, policy, logs, members, new HashSet<>());
 		return repository.save(group);
 	}
 	
@@ -72,5 +74,17 @@ public class AccountPersistenceService extends CrudPersistenceService<Bankaccoun
 
 	public List<BankaccountEntity> findByOwnerId(long idLong) {
 		return repository.findByOwnerId(idLong);
+	}
+
+	public Page<BankaccountEntity> findPaginatedAccountsWithOwner(long ownerId, Pageable pageable) {
+		return repository.findByOwnerId(ownerId, pageable);
+	}
+	
+	public Page<GroupAccountEntity> findPaginatedGroupsWithMember(long memberId, Pageable pageable) {
+		return repository.findGroupAccountsByMemberOwnerId(memberId, pageable);
+	}
+	
+	public Page<BankaccountEntity> findPaginatedAccountsWithManager(long managerId, Pageable pageable) {
+		return repository.findByManagerId(managerId, pageable);
 	}
 }

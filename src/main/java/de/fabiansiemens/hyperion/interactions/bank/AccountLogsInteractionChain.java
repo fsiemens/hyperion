@@ -55,6 +55,7 @@ public class AccountLogsInteractionChain extends CommonAccountInteractionChain {
 	
 	@InteractionCallback(id = "b.konto.logs.page-back")
 	public void onAccountLogsPageBackButtonInteraction(ButtonInteractionEvent event, Arguments args) throws AccountNotFoundException, ArgumentTypeException, UiParseException {
+		event.deferEdit().queue();
 		BankAccount account = getAccount(args.get("konto"));
 		int pageNr = args.get("page").asInteger();
 		displayLogPage(event, account, pageNr -1);
@@ -62,6 +63,7 @@ public class AccountLogsInteractionChain extends CommonAccountInteractionChain {
 	
 	@InteractionCallback(id = "b.konto.logs.page-forward")
 	public void onAccountLogsPageForwardButtonInteraction(ButtonInteractionEvent event, Arguments args) throws AccountNotFoundException, ArgumentTypeException, UiParseException {
+		event.deferEdit().queue();
 		BankAccount account = getAccount(args.get("konto"));
 		int pageNr = args.get("page").asInteger();
 		displayLogPage(event, account, pageNr +1);

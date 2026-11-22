@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
+import de.fabiansiemens.hyperion.core.features.roll.v2.RollCacheEntry;
 import jakarta.annotation.Nullable;
 import jakarta.annotation.PostConstruct;
 import lombok.NonNull;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@Deprecated
 public class RollCachingService {
 
 	@Value("${roll.cache.maxsize}")
@@ -23,7 +25,7 @@ public class RollCachingService {
 	@Value("${roll.cache.timeout}")
 	private int timeout;
 	
-	private Cache<Long, RollBundle> rollCache;
+	private Cache<Long, RollCacheEntry> rollCache;
 	
 	@PostConstruct
 	public void init() {
@@ -34,13 +36,13 @@ public class RollCachingService {
 	}
 		       
 	@Nullable
-	public RollBundle getRoll(@NonNull Long messageId){
-		log.trace("Retrieving RollResults for messageId '{}'", messageId);
+	public RollCacheEntry getRoll(@NonNull Long messageId){
+		log.trace("Retrieving RollCacheEntries for messageId '{}'", messageId);
 		return rollCache.getIfPresent(messageId);
 	}
 	
-	public void putRoll(@NonNull Long messageId, @NonNull RollBundle rollBundle) {
-		log.debug("Cached RollBundle for messageId '{}'", messageId);
-		rollCache.put(messageId, rollBundle);
+	public void putRoll(@NonNull Long messageId, @NonNull RollCacheEntry result) {
+		log.debug("Cached RollCacheEntry for messageId '{}'", messageId);
+		rollCache.put(messageId, result);
 	}
 }

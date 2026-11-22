@@ -30,7 +30,6 @@ import net.dv8tion.jda.api.components.selections.SelectOption;
 import net.dv8tion.jda.api.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.modals.Modal;
@@ -76,25 +75,7 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 		
 		event.getHook().editOriginalComponents(getKontoPanel(account, args, event.getGuild(), event.getUser())).useComponentsV2().queue();
 	}
-	
-	/**
-	 * Entry Point: Command <br>
-	 * Follow Ups: AccountCreateButton / AccountSelect <br>
-	 * 
-	 * Sends an accountCreateButton (args: none) if user has no associated account, or <br>
-	 * sends an accountSelectMenu (args: mode=choose) if user has one or more accounts
-	 * <br><br>
-	 * accept args: none
-	 * 
-	 * @param event
-	 */
-	public void onKontoCommandInteraction(SlashCommandInteractionEvent event) throws UiParseException {
-		onBankCommandInteraction(event, "choose", "konto");
-	}
-	
-	public void onGroupCommandInteraction(SlashCommandInteractionEvent event) throws UiParseException {
-		onBankCommandInteraction(event, "pre-select", "group");
-	}
+
 	
 	/**
 	 * Entry Point: KontoCommand / GroupCommand / AddMemberButton <br>
@@ -214,32 +195,33 @@ public class CommonAccountInteractionChain extends InteractionChainBase {
 		return isOwner(account, user) || account.hasManager(user.getIdLong());
 	}
 	
-	private void onBankCommandInteraction(SlashCommandInteractionEvent event, String mode, String type) throws UiParseException {
-		Button accountCreateButton = uiProvider.buttonOf(KONTO_CREATE_BUTTON_PATH, event.getGuild());
-		
-		event.deferReply(true).queue();
-		
-		if(!bankService.hasAccount(event.getUser())) {
-			event.getHook().sendMessage(les.getLocalizedExpression("warn.konto.no-account", event.getGuild())).setEphemeral(true)
-				.addComponents(ActionRow.of(accountCreateButton)).queue();
-			return;
-		}
-		
-		Arguments args = Arguments.of("mode", mode)
-				.put("type", type);
-		
-		List<BankAccount> accounts = bankService.findAccountsWithOwnerOrManager(event.getUser());
-		List<SelectOption> options = new LinkedList<>();
-		accounts.stream().forEach(acc -> options.add(
-				SelectOption.of(
-						acc.getName() + " (" + acc.getId() + (!isOwner(acc, event.getUser()) && isOwnerOrManager(acc, event.getUser()) ? "" : ", managed")  + ")", 
-						String.valueOf(acc.getId()))));
-		options.add(SelectOption.of("Create new...", "new"));
-		
-		StringSelectMenu accountSelect = uiProvider.stringSelectOf(ACCOUNT_STRING_SELECT_PATH, event.getGuild(), args, options);
-		event.getHook().sendMessage(les.getLocalizedExpression(".konto.select-account", event.getGuild())).setEphemeral(true)
-			.addComponents(ActionRow.of(accountSelect)).queue();
-	}
+//	@Deprecated
+//	private void onBankCommandInteraction(SlashCommandInteractionEvent event, String mode, String type) throws UiParseException {
+//		Button accountCreateButton = uiProvider.buttonOf(KONTO_CREATE_BUTTON_PATH, event.getGuild());
+//		
+//		event.deferReply(true).queue();
+//		
+//		if(!bankService.hasAccount(event.getUser())) {
+//			event.getHook().sendMessage(les.getLocalizedExpression("warn.konto.no-account", event.getGuild())).setEphemeral(true)
+//				.addComponents(ActionRow.of(accountCreateButton)).queue();
+//			return;
+//		}
+//		
+//		Arguments args = Arguments.of("mode", mode)
+//				.put("type", type);
+//		
+//		List<BankAccount> accounts = bankService.findAccountsWithOwnerOrManager(event.getUser());
+//		List<SelectOption> options = new LinkedList<>();
+//		accounts.stream().forEach(acc -> options.add(
+//				SelectOption.of(
+//						acc.getName() + " (" + acc.getId() + (!isOwner(acc, event.getUser()) && isOwnerOrManager(acc, event.getUser()) ? "" : ", managed")  + ")", 
+//						String.valueOf(acc.getId()))));
+//		options.add(SelectOption.of("Create new...", "new"));
+//		
+//		StringSelectMenu accountSelect = uiProvider.stringSelectOf(ACCOUNT_STRING_SELECT_PATH, event.getGuild(), args, options);
+//		event.getHook().sendMessage(les.getLocalizedExpression(".konto.select-account", event.getGuild())).setEphemeral(true)
+//			.addComponents(ActionRow.of(accountSelect)).queue();
+//	}
 	
 	private void chooseAccount(StringSelectInteractionEvent event, String type, String kontoRaw) throws UiParseException, NumberFormatException, AccountNotFoundException {
 		Arguments args = Arguments.of("type" , type)

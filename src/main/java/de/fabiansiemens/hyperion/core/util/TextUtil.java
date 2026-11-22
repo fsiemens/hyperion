@@ -27,4 +27,12 @@ public class TextUtil {
 		default: return "";
 		}
 	}
+	
+	public static String truncate(String string, int length) {
+		if(string.length() <= length)
+			return string;
+		
+		string = string.substring(0, length-3) + "...";
+		return string;
+	}
 }

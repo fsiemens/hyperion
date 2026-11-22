@@ -61,6 +61,9 @@
 	<separator divider="true" spacing="2"/>
 	
 	<action-row>
+		<button id="b.konto.select.tab.owned" style="primary" params="konto">
+			<text>@{.konto.button.back}@</text>
+		</button>
 		<button id="b.konto.logs" style="secondary" params="konto" disabled="!#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_VIEW_LOGS)">
 			<text>@{.konto.button.logs}@</text>
 		</button>

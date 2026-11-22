@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.entities.Guild;
 
 @Slf4j
 @Getter
+@Deprecated
 public class Roll {
 	
 	private List<Dice> results;

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.roll.repo.preset.create" >
+  <title>@{.roll.repo.preset.create.modal.title}@</title>
+  <label>
+  	<title>@{.roll.repo.preset.create.name.title}@</title>
+  	<description>@{.roll.repo.preset.create.name.description}@</description>
+  	<textInput max="64" min="1" style="short" required="true" id="name">
+  		<placeholder>@{.roll.repo.preset.create.name.placeholder}@</placeholder>
+  	</textInput>
+  </label>
+  
+  <label>
+  	<title>@{.roll.repo.preset.create.prompt.title}@</title>
+  	<description>@{.roll.repo.preset.create.prompt.description}@</description>
+  	<textInput max="128" min="2" style="paragraph" required="true" id="prompt">
+  		<placeholder>@{.roll.repo.preset.create.prompt.placeholder}@</placeholder>
+  	</textInput>
+  </label>
+</modal>

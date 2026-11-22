@@ -23,6 +23,6 @@ public class CalculateService {
 
 	public int calculateHealth(int charLvl, int hitDie, int conMod, boolean isTough, boolean isHillDwarf) throws RollException {
 		int compoundMod = conMod + (isTough ? 2 : 0) + (isHillDwarf ? 1 : 0);
-		return (hitDie + compoundMod) + ((charLvl - 1) * ((int) Math.ceil(rollServ.calculateAverage("d" +  hitDie)) + compoundMod));
+		return (hitDie + compoundMod) + ((charLvl - 1) * ((int) Math.ceil(rollServ.average("d" +  hitDie)) + compoundMod));
 	}
 }

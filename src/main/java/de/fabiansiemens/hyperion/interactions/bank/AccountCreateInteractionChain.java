@@ -38,7 +38,6 @@ public class AccountCreateInteractionChain extends CommonAccountInteractionChain
 	 */
 	@InteractionCallback(id = "b.konto.create")
 	public void onAccountCreateButtonInteraction(ButtonInteractionEvent event, Arguments args) throws UiParseException {
-		event.getMessage().delete().queue();
 		args.put("type", "konto");
 		args.put("show", true);
 		
@@ -61,7 +60,6 @@ public class AccountCreateInteractionChain extends CommonAccountInteractionChain
 	 */
 	@InteractionCallback(id = "b.group.create")
 	public void onGroupCreateButtonInteraction(ButtonInteractionEvent event, Arguments args) throws UiParseException {
-		event.getMessage().delete().queue();
 		args.put("type", "group");
 		
 		Modal accountCreateModal = uiProvider.modalOf(ACCOUNT_CREATE_MODAL_PATH, event.getGuild(), args);
@@ -86,16 +84,7 @@ public class AccountCreateInteractionChain extends CommonAccountInteractionChain
 	@InteractionCallback(id = "m.konto.create")
 	public void onAccountCreateModalInteraction(ModalInteractionEvent event, Arguments args) throws NumberFormatException, AccountNotFoundException {
 		String name = event.getValue("name").getAsString();
-		String konto = args.get("konto").asString();
 		String type = args.get("type").asString();
-		
-		BankAccount owner;
-		try {
-			owner = getAccount(konto);
-		}
-		catch (AccountNotFoundException | NumberFormatException e) {
-			owner = null;
-		}
 		
 		BankAccount account;
 		try {
@@ -106,9 +95,7 @@ public class AccountCreateInteractionChain extends CommonAccountInteractionChain
 				event.replyComponents(accountPanel).useComponentsV2().setEphemeral(true).queue();
 				break;
 			case "group":
-				if(owner == null)
-					throw new Exception("Could not find user account");
-				GroupAccount group = bankService.createGroup(owner, name);
+				GroupAccount group = bankService.createGroup(event.getUser(), name);
 				Container groupPanel = getGroupPanel(group, args, event.getGuild(), event.getUser());
 				event.replyComponents(groupPanel).useComponentsV2().setEphemeral(true).queue();
 				break;

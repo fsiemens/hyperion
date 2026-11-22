@@ -1,5 +1,6 @@
 package de.fabiansiemens.hyperion.core.features.bank;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,10 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 public class GroupAccount extends BankAccount {
 	
 	private GroupAccountEntity entity;
+	private List<BankAccount> membersCached;
 	
 	public GroupAccount(GroupAccountEntity entity) {
 		super(entity);
 		this.entity = entity;
+		this.membersCached = new LinkedList<>(entity.getMembers())
+				.stream()
+				.map(BankAccount::new)
+				.collect(Collectors.toUnmodifiableList()); 
 	}
 	
 	@Override
@@ -27,11 +33,8 @@ public class GroupAccount extends BankAccount {
 	}
 	
 	public List<BankAccount> getMembers() {
-		return ((GroupAccountEntity) entity)
-					.getMembers()
-					.stream()
-					.map(BankAccount::new)
-					.collect(Collectors.toUnmodifiableList()); 
+		return this.membersCached;
+					
 	}
 	
 	public void setMembers(List<BankAccount> members) {
@@ -40,6 +43,10 @@ public class GroupAccount extends BankAccount {
 				.collect(Collectors.toList());
 		
 		((GroupAccountEntity) entity).setMembers(entities);
+		this.membersCached = new LinkedList<>(entity.getMembers())
+				.stream()
+				.map(BankAccount::new)
+				.collect(Collectors.toUnmodifiableList());
 	}
 
 	public boolean hasMemberWithId(long id) {

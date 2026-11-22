@@ -7,10 +7,12 @@ import org.springframework.context.ApplicationContext;
 import de.fabiansiemens.hyperion.core.annotations.Command;
 import de.fabiansiemens.hyperion.core.commands.slash.SlashCommandBase;
 import de.fabiansiemens.hyperion.core.exceptions.UiParseException;
+import de.fabiansiemens.hyperion.interactions.bank.AccountSelectInteractionChain;
 import de.fabiansiemens.hyperion.interactions.bank.CommonAccountInteractionChain;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-@Command(dataFile = "bank/Group.json")
+@Deprecated
+//@Command(dataFile = "bank/Group.json")
 public class GroupCommand extends SlashCommandBase {
 	
 	public GroupCommand(ApplicationContext context
@@ -20,9 +22,9 @@ public class GroupCommand extends SlashCommandBase {
 	
 	@Override
 	public void performSlashCommand(SlashCommandInteractionEvent event) throws UiParseException {
-		CommonAccountInteractionChain interactionChain = context.getBean(CommonAccountInteractionChain.class);
+		AccountSelectInteractionChain interactionChain = context.getBean(AccountSelectInteractionChain.class);
 		try {
-			interactionChain.onGroupCommandInteraction(event);
+			interactionChain.onKontoCommandInteraction(event);
 		} catch (UiParseException e) {
 			// TODO Fix Exception handling
 			e.printStackTrace();

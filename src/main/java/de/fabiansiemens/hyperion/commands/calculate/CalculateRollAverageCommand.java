@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationContext;
 
 import de.fabiansiemens.hyperion.core.annotations.Subcommand;
 import de.fabiansiemens.hyperion.core.commands.slash.SlashCommandBase;
-import de.fabiansiemens.hyperion.core.exceptions.RollException;
 import de.fabiansiemens.hyperion.core.exceptions.UiParseException;
 import de.fabiansiemens.hyperion.core.features.roll.RollService;
 import de.fabiansiemens.hyperion.core.util.Arguments;
@@ -25,15 +24,16 @@ public class CalculateRollAverageCommand extends SlashCommandBase {
 
 	@Override
 	public void performSlashCommand(SlashCommandInteractionEvent event) throws UiParseException {
+		event.deferReply().setEphemeral(true).queue();
 		final String roll = event.getOption("roll").getAsString();
 		try {
-			double average = rollServ.calculateAverage(roll);
+			double average = rollServ.average(roll);
 			Arguments args = Arguments.of("rollString", roll)
 				.put("average", String.valueOf(average));
 			
-			event.reply(les.getLocalizedExpression("success.calculate.average", event.getGuild(), args)).setEphemeral(true).queue();
-		} catch (RollException e) {
-			event.reply(les.getLocalizedExpression(e.getLocalizedMessage(), event.getGuild())).setEphemeral(true).queue();
+			event.getHook().sendMessage(les.getLocalizedExpression("success.calculate.average", event.getGuild(), args)).setEphemeral(true).queue();
+		} catch (Exception e) {
+			event.getHook().sendMessage(les.getLocalizedExpression(e.getLocalizedMessage(), event.getGuild())).setEphemeral(true).queue();
 		}
 	}
 

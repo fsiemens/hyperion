@@ -80,6 +80,9 @@
 	<separator divider="true" spacing="2" />
 	
 	<action-row>
+		<button id="b.konto.select.tab.member" style="primary" params="konto">
+			<text>@{.konto.button.back}@</text>
+		</button>
 		<button id="b.group.leave" style="danger" params="konto" 
 			disabled="!#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_LEAVE)"> 
 			<text>@{.group.button.leave}@</text>

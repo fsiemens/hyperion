@@ -1,7 +1,9 @@
 package de.fabiansiemens.hyperion.core.features.bank;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import de.fabiansiemens.hyperion.persistence.bank.account.BankaccountEntity;
@@ -14,6 +16,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BankAccount {
 	protected BankaccountEntity entity;
+	
+	private Set<Long> cachedManagerIds;
+	
+	public BankAccount(BankaccountEntity entity) {
+	    this.entity = entity;
+	    // Lazy collections sofort auflösen solange Session offen ist
+	    this.cachedManagerIds = new HashSet<>(entity.getManagerIds());
+	}
 	
 	public Long getId() {
 		return entity.getId();
@@ -42,8 +52,8 @@ public class BankAccount {
 				.collect(Collectors.toList());
 	}
 	
-	public List<Long> getManagerIds() {
-		return this.entity.getManagerIds();
+	public Set<Long> getManagerIds() {
+		return this.cachedManagerIds;
 	}
 	
 	public void setOwnerId(Long ownerId) {
@@ -70,8 +80,9 @@ public class BankAccount {
 			);
 	}
 	
-	public void setManagerIds(List<Long> managerIds) {
+	public void setManagerIds(Set<Long> managerIds) {
 		this.entity.setManagerIds(managerIds);
+		this.cachedManagerIds = new HashSet<>(managerIds);
 	}
 
 	public void addLogEntry(AccountLog logEntry) {
@@ -90,7 +101,7 @@ public class BankAccount {
 		this.getPolicies().put(policy, !hasPolicy(policy));
 	}
 
-	public boolean hasManager(long idLong) {
-		return this.entity.getManagerIds().contains(idLong);
+	public boolean hasManager(long id) {
+	    return cachedManagerIds.contains(id);
 	}
 }

@@ -9,21 +9,21 @@
   		<placeholder>@{.konto.transaction.mode-selection.placeholder}@</placeholder>
   		<option 
   			if="#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_DEPOSIT) 
-  			&amp;&amp; (#isOwner || #account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBER_DEPOSIT))">
+  			&amp;&amp; (#isAuthorized || #account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBER_DEPOSIT))">
   			<label>@{.konto.transaction.mode-selection.deposit.label}@</label>
   			<value>deposit</value>
   			<description>@{.konto.transaction.mode-selection.deposit.description}@</description>
   		</option>
   		<option 
   			if="#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_SENDING_TRANSFER) 
-  			&amp;&amp; (#isOwner || #account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBER_TRANSFER))">
+  			&amp;&amp; (#isAuthorized || #account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBER_TRANSFER))">
   			<label>@{.konto.transaction.mode-selection.transfer.label}@</label>
   			<value>transfer</value>
   			<description>@{.konto.transaction.mode-selection.transfer.description}@</description>
   		</option>
   		<option 
   			if="#account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_WITHDRAWAL) 
-  			&amp;&amp; (#isOwner || #account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBER_WITHDRAW))">
+  			&amp;&amp; (#isAuthorized || #account.hasPolicy(T(de.fabiansiemens.hyperion.core.features.bank.AccountPolicies).ALLOW_MEMBER_WITHDRAW))">
   			<label>@{.konto.transaction.mode-selection.withdraw.label}@</label>
   			<value>withdraw</value>
   			<description>@{.konto.transaction.mode-selection.withdraw.description}@</description>

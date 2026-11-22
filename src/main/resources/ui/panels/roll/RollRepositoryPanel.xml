@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.konto">
+	<section>
+		<text-display>
+			<h1>@{.roll.repo.panel.title}@</h1>
+			<text>@{.roll.repo.panel.description}@</text>
+		</text-display>
+		<button style="success" id="b.roll.repo.new">
+			<text>@{.roll.repo.button.new}@</text>
+		</button>
+	</section>
+	
+	<separator divider="true" spacing="2" />
+	
+	<section for="presets">
+		<text-display>
+			<h3>{name}</h3>
+			<text>-# `{prompt}`</text>
+		</text-display>
+		<button style="primary" id="b.roll.repo.run" params="id">
+			<text>@{.roll.button.roll}@</text>
+		</button>
+	</section>
+	
+	<separator divider="true" spacing="2"/>
+	
+	<action-row>
+		<button id="b.roll.repo.page-back" style="primary" params="page" disabled="#currentPage &lt;= 1">
+			<emoji>⏪</emoji>
+		</button>
+		<button id="b.roll.repo.page-counter" style="primary" disabled="true">
+			<text>@{.common.panel.page-counter}@</text>
+		</button>
+		<button id="b.roll.repo.page-forward" style="primary" params="page" disabled="#currentPage >= #totalPages">
+			<emoji>⏩</emoji>
+		</button>
+	</action-row>
+	
+</container>

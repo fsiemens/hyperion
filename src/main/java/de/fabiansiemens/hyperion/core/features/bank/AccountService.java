@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Primary;
@@ -58,6 +59,7 @@ public class AccountService {
 	
 	protected final AccountPersistenceService persistenceService;
 	
+	@Transactional
 	public UpdateAction addMember(GroupAccount group, BankAccount account) {
 		if(group.hasMemberWithId(account.getId()) || group.getId().equals(account.getId()))
 			return new UpdateAction();
@@ -66,6 +68,7 @@ public class AccountService {
 		return new UpdateAction(group);
 	}
 	
+	@Transactional
 	public UpdateAction removeMember(GroupAccount group, BankAccount account) {
 		if(!group.hasMemberWithId(account.getId())) {
 			log.info("Provided account is not a member of the group");
@@ -78,6 +81,7 @@ public class AccountService {
 		return new UpdateAction(group);
 	}
 	
+	@Transactional
 	public BankAccount createAccount(User owner, String name) {
 		return new BankAccount(persistenceService.createAccount(
 				owner.getIdLong(), name, AccountPolicies.withDefaults(), 
@@ -85,12 +89,13 @@ public class AccountService {
 			);
 	}
 	
-	public GroupAccount createGroup(@NonNull BankAccount account, @NonNull String name) {
+	@Transactional
+	public GroupAccount createGroup(@NonNull User user, @NonNull String name) {
 		List<BankaccountEntity> members = new LinkedList<>();
-		members.add(account.getEntity());
-		return new GroupAccount(persistenceService.createGroup(account.getOwnerId(), name, AccountPolicies.withDefaults(), new LinkedList<>(), members));
+		return new GroupAccount(persistenceService.createGroup(user.getIdLong(), name, AccountPolicies.withDefaults(), new LinkedList<>(), members));
 	}
 	
+	@Transactional
 	public AccountLog createAccountLog(BankAccount owner, double amount, String receiver, String sender, String usage, boolean inbound) {
 		if(receiver == null || receiver.isBlank())
 			receiver = "-";
@@ -104,6 +109,7 @@ public class AccountService {
 		return new AccountLog(new AccountLogEntity(owner.getEntity(), amount, receiver, sender, usage, inbound));
 	}
 	
+	@Transactional
 	public GroupAccountLog createGroupLog(@NonNull GroupAccount account, @NonNull Double amount, @NonNull String receiver,
 			@NonNull String sender, @NonNull String usage, boolean inbound, User authorizer) {
 		if(receiver == null || receiver.isBlank())
@@ -118,6 +124,7 @@ public class AccountService {
 		return new GroupAccountLog(new GroupAccountLogEntity(account.getEntity(), amount, receiver, sender, usage, inbound, authorizer.getIdLong()));
 	}
 	
+	@Transactional
 	public Page<AccountLog> findPaginatedLogs(BankAccount account, Pageable pageable) {
 		Page<AccountLogEntity> logs = persistenceService.findPaginatedLogsByAccountId(account.getEntity(), pageable);
 		List<AccountLog> mapped = new LinkedList<>();
@@ -137,14 +144,17 @@ public class AccountService {
 		);
 	}
 
+	@Transactional
 	public boolean hasGroup(@NonNull BankAccount account) {
 		return persistenceService.existsGroupByMemberId(account.getId());
 	}
 	
+	@Transactional
 	public boolean hasAccount(@NonNull User user) {
 		return persistenceService.existsAccountWithOwnerId(user.getIdLong()) || persistenceService.existsAccountWithManagerId(user.getIdLong());
 	}
 	
+	@Transactional
 	public List<BankAccount> findAccountsFromOwner(User owner) {
 		return persistenceService.findByOwnerId(owner.getIdLong())
 				.stream()
@@ -152,6 +162,7 @@ public class AccountService {
 				.collect(Collectors.toList());
 	}
 	
+	@Transactional
 	public List<BankAccount> findAccountsWithOwnerOrManager(User user) {
 		return persistenceService.findAll()
 				.stream()
@@ -160,6 +171,7 @@ public class AccountService {
 				.collect(Collectors.toList());
 	}
 
+	@Transactional
 	public Optional<BankAccount> findAccountWithId(long id) {
 		Optional<BankaccountEntity> entity = persistenceService.findById(id);
 		if(entity.isEmpty())
@@ -171,7 +183,53 @@ public class AccountService {
 		
 		return Optional.of(new BankAccount(entity.get()));
 	}
+	
+	@Transactional
+	public Page<BankAccount> findPaginatedOwnedAccounts(User user, Pageable pageable) {
+		Page<BankaccountEntity> accounts = persistenceService.findPaginatedAccountsWithOwner(user.getIdLong(), pageable);
+		List<BankAccount> mapped = accounts.getContent()
+				.stream()
+				.map(BankAccount::new)
+				.collect(Collectors.toList());
+		
+		return new PageImpl<>(
+			mapped,
+			accounts.getPageable(),
+			accounts.getTotalElements()
+		);
+	}
+	
+	@Transactional
+	public Page<BankAccount> findPaginatedManagedAccounts(User user, Pageable pageable) {
+		Page<BankaccountEntity> accounts = persistenceService.findPaginatedAccountsWithManager(user.getIdLong(), pageable);
+		List<BankAccount> mapped = accounts.getContent()
+				.stream()
+				.map(BankAccount::new)
+				.collect(Collectors.toList());
+		
+		return new PageImpl<>(
+			mapped,
+			accounts.getPageable(),
+			accounts.getTotalElements()
+		);
+	}
+	
+	@Transactional
+	public Page<GroupAccount> findPaginatedGroupsWithUser(User user, Pageable pageable) {
+		Page<GroupAccountEntity> accounts = persistenceService.findPaginatedGroupsWithMember(user.getIdLong(), pageable);
+		List<GroupAccount> mapped = accounts.getContent()
+				.stream()
+				.map(GroupAccount::new)
+				.collect(Collectors.toList());
+		
+		return new PageImpl<>(
+			mapped,
+			accounts.getPageable(),
+			accounts.getTotalElements()
+		);
+	}
 
+	@Transactional
 	public List<GroupAccount> findGroupsWithMember(@NonNull BankAccount account) {
 		return persistenceService.findByMemberId(account.getId())
 				.stream()
@@ -179,6 +237,7 @@ public class AccountService {
 				.collect(Collectors.toList());
 	}
 	
+	@Transactional
 	public Optional<AccountLog> findLogById(long id) {
 		Optional<AccountLogEntity> log = persistenceService.findLogById(id);
 		if(log.isEmpty())
@@ -191,6 +250,7 @@ public class AccountService {
 		return Optional.of(new AccountLog(log.get()));
 	}
 
+	@Transactional
 	public UpdateAction deposit(final @NonNull BankAccount account, final @NonNull String sender, final @NonNull Double amount, final @NonNull String usage, final @NonNull User user) throws IllegalArgumentException {
 		if(amount <= 0)
 			throw new IllegalArgumentException("error.konto.transfer.amount-negative");
@@ -219,7 +279,7 @@ public class AccountService {
 	}
 	
 
-
+	@Transactional
 	public UpdateAction transfer(final @NonNull BankAccount sender, final @NonNull BankAccount receiver, final @NonNull Double amount, final @NonNull String usage, final @NonNull User user) throws IllegalArgumentException {
 		if(amount <= 0)
 			throw new IllegalArgumentException("error.konto.transfer.amount-negative");
@@ -230,6 +290,7 @@ public class AccountService {
 		return new UpdateAction(a, b);
 	}
 	
+	@Transactional
 	public UpdateAction withdraw(final @NonNull BankAccount account, final @NonNull String receiver, final @NonNull Double amount, final @NonNull String usage, final @NonNull User user) throws IllegalArgumentException {
 		if(amount <= 0)
 			throw new IllegalArgumentException("error.konto.transfer.amount-negative");
@@ -258,37 +319,47 @@ public class AccountService {
 		return action;
 	}
 	
+	@Transactional
 	public UpdateAction setPolicyState(@NonNull BankAccount account, @NonNull AccountPolicies policies, boolean state) {
 		account.getPolicies().put(policies, state);
 		return new UpdateAction(account);
 	}
 
+	@Transactional
 	public BankAccount updateAccount(@NonNull BankAccount account) {
 		return new BankAccount(this.persistenceService.update(account.getEntity()));
 	}
 
+	@Transactional
 	public void deleteAccount(@NonNull BankAccount account) {
 		this.persistenceService.delete(account.getEntity());
 	}
 
+	@Transactional
 	public UpdateAction changeOwner(@NonNull BankAccount account, @NonNull Long ownerId) {
 		account.setOwnerId(ownerId);
 		return new UpdateAction(account);
 	}
 	
+	@Transactional
 	public UpdateAction addManager(@NonNull BankAccount account, @NonNull User manager) {
 		if(account.hasManager(manager.getIdLong()))
 			return new UpdateAction();
 		log.info("Adding Manager {} to account {}", manager.getIdLong(), account.getId());
-		account.getManagerIds().add(manager.getIdLong());
+		Set<Long> accounts = account.getManagerIds();
+		accounts.add(manager.getIdLong());
+		account.setManagerIds(accounts);
 		return new UpdateAction(account);
 	}
 	
+	@Transactional
 	public UpdateAction removeManager(@NonNull BankAccount account, @NonNull Long managerId) {
 		if(!account.hasManager(managerId))
 			return new UpdateAction();
 		
-		account.getManagerIds().removeIf(entry -> entry.equals(managerId));
+		Set<Long> accounts = account.getManagerIds();
+		accounts.remove(managerId);
+		account.setManagerIds(accounts);
 		return new UpdateAction(account);
 	}
 }

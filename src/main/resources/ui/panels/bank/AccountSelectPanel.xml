@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.konto.logs">
+	<section if="#tab == 'owned'">
+		<text-display>
+			<h1>@{.konto.panel.select.title}@</h1>
+			<text>@{.konto.panel.select.description}@</text>
+		</text-display>
+		<button id="b.konto.create" style="success" params="id">
+			<text>@{.konto.button.create}@</text>
+		</button>
+	</section>
+	
+	<section if="#tab == 'member'">
+		<text-display>
+			<h1>@{.konto.panel.select.title}@</h1>
+			<text>@{.konto.panel.select.description}@</text>
+		</text-display>
+		<button id="b.group.create" style="success" params="id">
+			<text>@{.group.button.create}@</text>
+		</button>
+	</section>
+	
+	<text-display if="#tab == 'managed'">
+		<h1>@{.konto.panel.select.title}@</h1>
+		<text>@{.konto.panel.select.description}@</text>
+	</text-display>
+	
+	<separator divider="false" spacing="2" />
+	
+	<action-row>
+		<button id="b.konto.select.tab.owned" style="secondary" disabled="#tab == 'owned'">
+			<text>@{.konto.button.select.owned}@</text>
+		</button>
+		<button id="b.konto.select.tab.member" style="secondary" disabled="#tab == 'member'">
+			<text>@{.konto.button.select.member}@</text>
+		</button>
+		<button id="b.konto.select.tab.managed" style="secondary" disabled="#tab == 'managed'">
+			<text>@{.konto.button.select.managed}@</text>
+		</button>
+	</action-row>
+	
+	<separator divider="true" spacing="2" />
+	
+	<section for="accounts">
+		<text-display>
+			<text>@{.konto.panel.select.entry.title}@</text>
+			<!-- <subtext>@{.konto.panel.select.entry.description}@</subtext> -->
+		</text-display>
+		<button id="b.konto.select.choose" style="primary" params="konto">
+			<text>@{.konto.button.select.choose}@</text>
+		</button>
+	</section>
+	
+	<text-display if="#accounts.length == 0 &amp;&amp; #tab == 'owned'">
+		<text>*@{.konto.no-account.owned}@*</text>
+	</text-display>
+	
+	<text-display if="#accounts.length == 0 &amp;&amp; #tab == 'member'">
+		<text>*@{.konto.no-account.member}@*</text>
+	</text-display>
+	
+	<text-display if="#accounts.length == 0 &amp;&amp; #tab == 'managed'">
+		<text>*@{.konto.no-account.managed}@*</text>
+	</text-display>
+	
+	<separator divider="true" spacing="2" />
+	
+	<action-row>
+		<button id="b.konto.select.page-back" style="primary" params="page, tab" disabled="#currentPage &lt;= 1">
+			<emoji>⏪</emoji>
+		</button>
+		<button id="b.konto.select.page-counter" style="primary" disabled="true">
+			<text>@{.common.panel.page-counter}@</text>
+		</button>
+		<button id="b.konto.select.page-forward" style="primary" params="page, tab" disabled="#currentPage >= #totalPages">
+			<emoji>⏩</emoji>
+		</button>
+	</action-row>
+</container>

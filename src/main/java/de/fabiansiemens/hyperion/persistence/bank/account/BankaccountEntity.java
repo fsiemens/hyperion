@@ -1,9 +1,9 @@
 package de.fabiansiemens.hyperion.persistence.bank.account;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -20,8 +20,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.MapKeyEnumerated;
 import jakarta.persistence.OneToMany;
@@ -36,6 +37,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class BankaccountEntity {
 	
 	@Id
@@ -77,7 +79,7 @@ public class BankaccountEntity {
 	    joinColumns = @JoinColumn(name = "account_id")
 	)
 	@Column(name = "manager_id")
-	private List<Long> managerIds;
+	private Set<Long> managerIds;
 	
 	public Map<AccountPolicies, Boolean> getPolicies() {
 		if(policies == null || policies.isEmpty())
@@ -86,9 +88,9 @@ public class BankaccountEntity {
 		return policies;
 	}
 	
-	public List<Long> getManagerIds() {
+	public Set<Long> getManagerIds() {
 		if(managerIds == null)
-			return new LinkedList<Long>();
+			return new HashSet<Long>();
 		
 		return managerIds;
 	}

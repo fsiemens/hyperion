@@ -2,6 +2,8 @@ package de.fabiansiemens.hyperion.persistence.bank.account.group;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,4 +16,15 @@ public interface GroupAccountRepository extends BankAccountRepository {
 	
 	@Query("SELECT g FROM GroupAccountEntity g JOIN g.members m WHERE m.id = :memberId")
 	public List<GroupAccountEntity> findByMemberId(@Param("memberId") Long memberId);
+	
+	@Query("""
+        SELECT DISTINCT g
+        FROM GroupAccountEntity g
+        JOIN g.members m
+        WHERE m.ownerId = :ownerId
+    """)
+    Page<GroupAccountEntity> findGroupAccountsByMemberOwnerId(
+            @Param("ownerId") Long ownerId,
+            Pageable pageable
+    );
 }

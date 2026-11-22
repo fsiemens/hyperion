@@ -52,14 +52,16 @@ public class GroupMemberInteractionChain extends CommonAccountInteractionChain {
 	
 	@InteractionCallback(id = "m.group.add-member")
 	public void onGroupMemberAddModalInteraction(ModalInteractionEvent event, Arguments args) throws NumberFormatException, AccountNotFoundException, ArgumentTypeException, UiParseException {
-		event.deferEdit().queue();
-		
 		String idRaw = event.getValue("user").getAsString();
 		BankAccount account = getAccount(idRaw);
 		GroupAccount group = (GroupAccount) getAccount(args.get("konto"));
 		
 		bankService.addMember(group, account).commit();
+		group = (GroupAccount) getAccount(args.get("konto"));
+		
+		prepareMembersArgs(group, args, event.getUser());
 		Container groupPanel = getGroupPanel(group, args, event.getGuild(), event.getUser());
+		event.reply(les.getLocalizedExpression("success.group.member.add", event.getGuild(), Arguments.of("name", account.getName()))).setEphemeral(true).queue();
 		event.getHook().editOriginalComponents(groupPanel).useComponentsV2().queue();
 	}
 	
@@ -85,21 +87,15 @@ public class GroupMemberInteractionChain extends CommonAccountInteractionChain {
 			return;
 		}
 		
-		//In case the group has just 1 member, send error message
-		if(group.getMembers().size() == 1) {
-			event.reply(les.getLocalizedExpression("error.group.leave-last", event.getGuild())).setEphemeral(true).queue();
-			return;
-		}
-		
 		//In case the user has just 1 account as member, remove it OR if it is the owner send an error message
 		if(members.size() == 1) {
-			if(group.isOwner(event.getIdLong())) {
-				event.reply(les.getLocalizedExpression("error.group.transfer-ownership", event.getGuild()));
-				return;
-			}
-			
 			bankService.removeMember(group, members.getFirst()).commit();
 			event.reply(les.getLocalizedExpression("success.group.leave", event.getGuild())).setEphemeral(true).queue();
+			GroupAccount updated = (GroupAccount) getAccount(args.get("konto"));
+			
+			prepareMembersArgs(updated, args, event.getUser());
+			Container groupPanel = getGroupPanel(updated, args, event.getGuild(), event.getUser());
+			event.getHook().editOriginalComponents(groupPanel).useComponentsV2().queue();
 		}
 		
 		//In case the user has multiple accounts in group, send select menu
@@ -122,8 +118,11 @@ public class GroupMemberInteractionChain extends CommonAccountInteractionChain {
 		BankAccount account = getAccount(event.getValue("konto.modal.leave.account-select").getAsStringList().getFirst());
 		
 		bankService.removeMember(group, account).commit();
-		Container panel = getGroupPanel(group, args, event.getGuild(), event.getUser());
-		event.editComponents(panel).useComponentsV2().queue();
+		GroupAccount updated = (GroupAccount) getAccount(args.get("konto"));
+		
+		prepareMembersArgs(updated, args, event.getUser());
+		Container groupPanel = getGroupPanel(updated, args, event.getGuild(), event.getUser());
+		event.editComponents(groupPanel).useComponentsV2().queue();
 	}
 	
 	//TODO implement auto paging 

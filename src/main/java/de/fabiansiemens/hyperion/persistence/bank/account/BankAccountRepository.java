@@ -35,4 +35,16 @@ public interface BankAccountRepository extends JpaRepository<BankaccountEntity, 
 	@Query("SELECT log FROM BankaccountEntity acc JOIN acc.logs log WHERE log.id = :id")
 	Optional<AccountLogEntity> findLogById(@Param("id") Long id);
 	
+	Page<BankaccountEntity> findByOwnerId(Long ownerId, Pageable pageable);
+
+    @Query("""
+        SELECT b
+        FROM BankaccountEntity b
+        JOIN b.managerIds m
+        WHERE m = :managerId
+    """)
+    Page<BankaccountEntity> findByManagerId(
+            @Param("managerId") Long managerId,
+            Pageable pageable
+    );
 }

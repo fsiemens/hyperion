@@ -2,6 +2,7 @@ package de.fabiansiemens.hyperion.persistence.bank.account.group;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.fabiansiemens.hyperion.core.features.bank.AccountPolicies;
 import de.fabiansiemens.hyperion.persistence.bank.account.BankaccountEntity;
@@ -34,7 +35,7 @@ public class GroupAccountEntity extends BankaccountEntity {
 			@NonNull Map<AccountPolicies, Boolean> policy, 
 			@NonNull List<AccountLogEntity> logs,
 			@NonNull List<BankaccountEntity> members,
-			@NonNull List<Long> managerIds) {
+			@NonNull Set<Long> managerIds) {
 		
 		super(owner, balance, name, policy, logs, managerIds);
 		this.members = members;
