@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import de.fabiansiemens.hyperion.core.annotations.JdaListener;
 import de.fabiansiemens.hyperion.core.commands.CommandRegistrationService;
 import de.fabiansiemens.hyperion.core.commands.ICommand;
-import de.fabiansiemens.hyperion.core.exceptions.UiParseException;
+import de.fabiansiemens.hyperion.core.exceptions.InteractionErrorHandler;
 import de.fabiansiemens.hyperion.core.locale.LocalizedExpressionService;
 import de.fabiansiemens.hyperion.core.util.Arguments;
 import lombok.AllArgsConstructor;
@@ -23,6 +23,7 @@ public class SlashCommandListener {
 	
 	private CommandRegistrationService commandRegistrationService;
 	private LocalizedExpressionService les;
+	private InteractionErrorHandler errorHandler;
 	
 	@SubscribeEvent
 	public void onSlashCommandInteractionEvent(SlashCommandInteractionEvent event) {
@@ -44,13 +45,8 @@ public class SlashCommandListener {
 		
 		try {
 			((SlashCommand) command).performSlashCommand(event);
-		} catch (UiParseException e) {
-			if(event.isAcknowledged()) {
-				event.getHook().sendMessage(les.getLocalizedExpression("error.common.ui", event.getGuild())).setEphemeral(true).queue();
-				return;
-			}
-			
-			event.reply(les.getLocalizedExpression("error.common.ui", event.getGuild())).setEphemeral(true).queue();
+		} catch (Exception e) {
+			errorHandler.handle(event, e);
 		}
 	}
 }

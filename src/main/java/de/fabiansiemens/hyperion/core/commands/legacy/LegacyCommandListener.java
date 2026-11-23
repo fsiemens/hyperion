@@ -6,7 +6,7 @@ import de.fabiansiemens.hyperion.core.annotations.JdaListener;
 import de.fabiansiemens.hyperion.core.commands.CommandRegistrationService;
 import de.fabiansiemens.hyperion.core.commands.ICommand;
 import de.fabiansiemens.hyperion.core.events.LegacyCommandEvent;
-import de.fabiansiemens.hyperion.core.exceptions.UiParseException;
+import de.fabiansiemens.hyperion.core.exceptions.InteractionErrorHandler;
 import de.fabiansiemens.hyperion.core.jda.JDAManager;
 import de.fabiansiemens.hyperion.core.locale.LocalizedExpressionService;
 import de.fabiansiemens.hyperion.core.systems.ManageableSystem;
@@ -28,14 +28,17 @@ public class LegacyCommandListener implements ManageableSystem {
 	private final JDAManager jdaManager;
 	private final LocalizedExpressionService les;
 	private final CommandRegistrationService commandRegistrationService;
+	private final InteractionErrorHandler errorHandler;
 	
 	public LegacyCommandListener(
 			@NonNull final JDAManager jdaManager, 
 			@NonNull final LocalizedExpressionService les,
-			@NonNull final CommandRegistrationService commandRegistrationService) {
+			@NonNull final CommandRegistrationService commandRegistrationService,
+			@NonNull final InteractionErrorHandler errorHandler) {
 		this.jdaManager = jdaManager;
 		this.les = les;
 		this.commandRegistrationService = commandRegistrationService;
+		this.errorHandler = errorHandler;
 		this.availability = SystemAvailability.NOT_LAUNCHED;
 	}
 	
@@ -83,8 +86,8 @@ public class LegacyCommandListener implements ManageableSystem {
 		LegacyCommandEvent legacyEvent = new LegacyCommandEvent(event, prompt, (LegacyCommand) command);
 		try {
 			((LegacyCommand) command).performLegacyCommand(legacyEvent);
-		} catch (UiParseException e) {
-			channel.sendMessage(les.getLocalizedExpression("error.common.ui", event.getGuild())).queue();
+		} catch (Exception e) {
+			errorHandler.handle(event, e);
 		}
 	}
 
