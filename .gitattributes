@@ -1,0 +1,15 @@
+# Normalize line endings in the repository, independent of local git settings
+* text=auto
+
+# Shell scripts must keep LF to run on Linux (CI)
+mvnw text eol=lf
+*.sh text eol=lf
+
+# Windows scripts keep CRLF
+*.cmd text eol=crlf
+
+# Binary files
+*.jar binary
+*.png binary
+*.gif binary
+*.jpg binary

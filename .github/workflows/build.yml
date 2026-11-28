@@ -28,8 +28,11 @@ jobs:
           distribution: "temurin"
           cache: maven
 
+      - name: Make Maven wrapper executable
+        run: chmod +x mvnw
+
       - name: Build with Maven
-        run: mvn -B package -DskipTests
+        run: ./mvnw -B package -DskipTests
 
       - name: Upload build artifact (JAR)
         uses: actions/upload-artifact@v4

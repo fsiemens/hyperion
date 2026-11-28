@@ -74,14 +74,12 @@ public class JDAConfiguration {
 	String jdaToken(@Autowired LaunchArgumentService las, @Autowired Environment env) throws ConfigurationException {
 		String jdaToken = env.getProperty(JDA_TOKEN);
 		
-		if(jdaToken != null)
-			log.debug("Using token: {}...{}", jdaToken.substring(0, 3), jdaToken.substring(jdaToken.length() -3, jdaToken.length()));
-		else {
+		if(jdaToken == null || jdaToken.isBlank()) {
 			log.error("No JDA-Token provided");
 			throw new ConfigurationException("No JDA-Token provided");
 		}
-			
-		log.info("Using Token: {}...", jdaToken.substring(0, 5));
+
+		log.info("JDA token loaded");
 		return jdaToken;
 	}
 	

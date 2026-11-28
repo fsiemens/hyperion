@@ -66,7 +66,7 @@ public class AiService {
 
 	public boolean containsProhibitedContent(String prompt) {	
 		for(String element : this.prohibitedContent) {
-			log.info("Checking if {} contains {}", prompt.toLowerCase(), element.toLowerCase());
+			log.trace("Checking if {} contains {}", prompt.toLowerCase(), element.toLowerCase());
 			if(prompt.toLowerCase().contains(element.toLowerCase()))
 				return true;
 		}

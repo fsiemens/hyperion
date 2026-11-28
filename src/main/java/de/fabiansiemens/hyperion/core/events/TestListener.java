@@ -15,11 +15,11 @@ public class TestListener {
 	
 	@SubscribeEvent
 	public void onStatusChangeEvent(StatusChangeEvent event) {
-		log.info("Detected StatusChangeEvent: {}", event);
+		log.debug("Detected StatusChangeEvent: {}", event);
 	}
 	
 	@SubscribeEvent
 	public void onMessageReceivedEvent(MessageReceivedEvent event) {
-		log.info("Detected MessageReceivedEvent: {}", event);
+		log.debug("Detected MessageReceivedEvent: {}", event);
 	}
 }
