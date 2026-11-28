@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.draw.max" params="draw" >
+  <title>@{.draw.settings.max-participants}@</title>
+  <label>
+  	<title>@{.draw.modal.max.title}@</title>
+  	<description>@{.draw.modal.max.description}@</description>
+  	<textInput max="4" min="0" style="short" required="false" id="max">
+  		<placeholder>@{.draw.modal.max.placeholder}@</placeholder>
+  		<value>{max}</value>
+  	</textInput>
+  </label>
+</modal>

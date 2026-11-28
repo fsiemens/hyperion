@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.draw">
+
+	<text-display>
+		<h1>@{.draw.panel.title}@</h1>
+		<text>@{.draw.panel.description}@</text>
+		<subtext>@{.draw.panel.owner}@</subtext>
+	</text-display>
+
+	<separator divider="true" spacing="1" />
+
+	<text-display>
+		<h3>@{.draw.panel.prizes}@</h3>
+		<text>{prizeList}</text>
+	</text-display>
+
+	<separator divider="true" spacing="1" />
+
+	<text-display>
+		<h3>@{.draw.panel.participants}@</h3>
+		<text>{participantList}</text>
+	</text-display>
+
+	<text-display if="#round > 0">
+		<subtext>@{.draw.panel.last-draw}@</subtext>
+	</text-display>
+
+	<separator divider="true" spacing="2" />
+
+	<action-row>
+		<button id="b.draw.join" style="primary" params="draw" disabled="#isFull">
+			<text>@{.draw.button.join}@</text>
+		</button>
+		<button id="b.draw.leave" style="secondary" params="draw" disabled="#participantCount == 0">
+			<text>@{.draw.button.leave}@</text>
+		</button>
+		<button id="b.draw.my-prize" style="secondary" params="draw" disabled="!#hasResult">
+			<text>@{.draw.button.my-prize}@</text>
+		</button>
+	</action-row>
+
+	<action-row>
+		<button id="b.draw.settings" style="secondary" params="draw">
+			<text>@{.draw.button.settings}@</text>
+		</button>
+		<button id="b.draw.start" style="success" params="draw" disabled="#participantCount == 0">
+			<text>@{.draw.button.start}@</text>
+		</button>
+		<button id="b.draw.reveal" style="secondary" params="draw" disabled="!#hasResult || #revealed">
+			<text>@{.draw.button.reveal}@</text>
+		</button>
+	</action-row>
+
+</container>

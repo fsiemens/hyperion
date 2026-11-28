@@ -1,0 +1,13 @@
+{
+	"slashData":{
+		"name" : "draw",
+		"description" : "Öffnet ein öffentliches Panel für eine Auslosung von Rollen oder Gewinnen",
+	 	"default_member_permissions" : null,
+	 	"dm_permission" : false,
+		"nsfw" : false,
+		"name_localizations" : { },
+		"description_localizations" : { },
+		"options" : [ ],
+		"type" : 1
+	}
+}

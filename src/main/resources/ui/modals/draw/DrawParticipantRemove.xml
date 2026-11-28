@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.draw.participant.remove" params="draw" >
+  <title>@{.draw.button.participant.remove}@</title>
+  <label>
+  	<title>@{.draw.modal.participant.remove.title}@</title>
+  	<description>@{.draw.modal.participant.remove.description}@</description>
+  	<entitySelect id="users" target="user" min="1" max="25" required="true">
+  		<placeholder>@{.draw.modal.participant.remove.placeholder}@</placeholder>
+  	</entitySelect>
+  </label>
+</modal>

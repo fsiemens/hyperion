@@ -15,6 +15,7 @@
     <xs:complexType name="textInputType">
     	<xs:sequence>
             <xs:element name="placeholder" type="xs:string" maxOccurs="1" minOccurs="1"></xs:element>
+            <xs:element name="value" type="xs:string" maxOccurs="1" minOccurs="0"></xs:element>
     	</xs:sequence>
     	<xs:attribute name="id" type="xs:string" use="required"/>
     	<xs:attribute name="style" type="textInputStyleType" use="required"/>

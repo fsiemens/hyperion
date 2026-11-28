@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../PanelSchema.xsd" id="p.draw.settings">
+
+	<text-display>
+		<h1>@{.draw.settings.title}@</h1>
+		<text>@{.draw.settings.description}@</text>
+	</text-display>
+
+	<separator divider="true" spacing="1" />
+
+	<text-display>
+		<h3>@{.draw.panel.prizes}@</h3>
+		<text>{prizeDetails}</text>
+	</text-display>
+
+	<separator divider="true" spacing="1" />
+
+	<section>
+		<text-display>
+			<h3>@{.draw.settings.default-prize}@</h3>
+			<text>{defaultPrizeDetails}</text>
+		</text-display>
+		<button id="b.draw.default-prize" style="secondary" params="draw">
+			<text>@{.draw.button.edit}@</text>
+		</button>
+	</section>
+
+	<section>
+		<text-display>
+			<h3>@{.draw.settings.max-participants}@</h3>
+			<text>> {maxParticipants}</text>
+		</text-display>
+		<button id="b.draw.max" style="secondary" params="draw">
+			<text>@{.draw.button.edit}@</text>
+		</button>
+	</section>
+
+	<separator divider="true" spacing="2" />
+
+	<action-row>
+		<button id="b.draw.prize.add" style="success" params="draw" disabled="#prizeCount >= 25">
+			<text>@{.draw.button.prize.add}@</text>
+		</button>
+		<button id="b.draw.prize.remove" style="danger" params="draw" disabled="#prizeCount == 0">
+			<text>@{.draw.button.prize.remove}@</text>
+		</button>
+		<button id="b.draw.participant.remove" style="danger" params="draw" disabled="#participantCount == 0">
+			<text>@{.draw.button.participant.remove}@</text>
+		</button>
+	</action-row>
+
+	<text-display if="#prizeCount > 0">
+		<subtext>@{.draw.settings.edit-hint}@</subtext>
+	</text-display>
+
+</container>

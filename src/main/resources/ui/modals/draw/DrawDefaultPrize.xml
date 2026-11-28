@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.draw.default-prize" params="draw" >
+  <title>@{.draw.settings.default-prize}@</title>
+  <label>
+  	<title>@{.draw.modal.prize.name.title}@</title>
+  	<description>@{.draw.modal.default-prize.name.description}@</description>
+  	<textInput max="64" min="0" style="short" required="false" id="name">
+  		<placeholder>@{.draw.default-prize}@</placeholder>
+  		<value>{name}</value>
+  	</textInput>
+  </label>
+  <label>
+  	<title>@{.draw.modal.prize.message.title}@</title>
+  	<description>@{.draw.modal.prize.message.description}@</description>
+  	<textInput max="500" min="0" style="paragraph" required="false" id="message">
+  		<placeholder>@{.draw.modal.prize.message.placeholder}@</placeholder>
+  		<value>{message}</value>
+  	</textInput>
+  </label>
+</modal>

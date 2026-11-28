@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../ModalSchema.xsd"
+	id="m.draw.prize.remove" params="draw" >
+  <title>@{.draw.button.prize.remove}@</title>
+  <label>
+  	<title>@{.draw.modal.prize.remove.title}@</title>
+  	<description>@{.draw.modal.prize.remove.description}@</description>
+  	<stringSelect id="prize" min="1" max="1" required="true">
+  		<option for="prizes">
+  			<label>{name}</label>
+  			<value>{id}</value>
+  			<description>{summary}</description>
+  		</option>
+  	</stringSelect>
+  </label>
+</modal>

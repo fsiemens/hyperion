@@ -476,6 +476,7 @@ public class XmlParseService {
 		
 		String id = getIdWithAppendedArgs(base, args);
 		String placeholder = null;
+		String value = null;
 		TextInputStyle style = TextInputStyle.valueOf(base.getAttribute("style").toUpperCase());
 		int min = Integer.parseInt(base.getAttribute("min"));
 		int max = Integer.parseInt(base.getAttribute("max"));
@@ -491,6 +492,9 @@ public class XmlParseService {
 			case "placeholder":
 				placeholder = les.replacePlaceholders(child.getTextContent(), guild, args);
 				break;
+			case "value":
+				value = les.replacePlaceholders(child.getTextContent(), guild, args);
+				break;
 			default: continue;
 			}
 		}
@@ -499,6 +503,7 @@ public class XmlParseService {
 				.setRequiredRange(min, max)
 				.setPlaceholder(placeholder)
 				.setRequired(required)
+				.setValue(value == null || value.isBlank() ? null : value)
 				.build();
 	}
 	
